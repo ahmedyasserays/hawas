@@ -75,7 +75,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class AccountAddress(models.Model):
+class BillingAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, blank=True)
     country = models.CharField(max_length=150, blank=True)
     state = models.CharField(max_length=150, blank=True)
