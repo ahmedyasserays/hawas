@@ -76,10 +76,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class BillingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="billing_adresses", on_delete=models.CASCADE)
     name = models.CharField(max_length=150, blank=True)
     country = models.CharField(max_length=150, blank=True)
     state = models.CharField(max_length=150, blank=True)
     city = models.CharField(max_length=150, blank=True)
     address = models.CharField(max_length=300, blank=True)
-    phone_number = models.IntegerField(max_length=20, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
