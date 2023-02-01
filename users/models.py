@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.utils.translation import gettext_lazy as _
-
+from store.models import Option,Product
 
 
 class UserManager(BaseUserManager):
@@ -39,7 +39,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(_("email address"), unique=True)
+    phone = models.CharField(max_length=15, null=True, blank=True)
     temp_password = models.CharField(max_length=100, null=True, blank=True)
+
+    cart = models.ManyToManyField(
+        Option, through="CartItem", blank=True, related_name="cart"
+    )
+
+    wishlist = models.ManyToManyField(Product, blank=True, related_name="wishlist")
+
+    start_date = models.DateTimeField(auto_now_add=True)
+    about = models.TextField(_("about"), max_length=500, blank=True)
 
     is_staff = models.BooleanField(
         "staff status",
@@ -83,3 +93,12 @@ class BillingAddress(models.Model):
     city = models.CharField(max_length=150, blank=True)
     address = models.CharField(max_length=300, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
+    
+    
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+        
+    class Meta:
+        unique_together = ["user", "option"]

@@ -42,3 +42,4 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(models.ProductReview)
 class ModelReviewAdmin(admin.ModelAdmin):
     list_display = ["user","product"]
+
