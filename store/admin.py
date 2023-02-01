@@ -28,7 +28,7 @@ class ImagesInline(admin.StackedInline):
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["name", "name_ar", "slug", "available", "created", "updated"]
-    list_filter = ["brand", "category", "available", "created", "updated"]
+    list_filter = ["category", "available", "created", "updated"]
     list_editable = ["available"]
     search_fields = ["name", "name_ar", "slug"]
     readonly_fields = ["slug", "created", "updated", "visits"]

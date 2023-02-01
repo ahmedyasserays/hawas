@@ -19,5 +19,5 @@ from store import urls as store_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include(store_urls,namespace='store')),
+    path('',include(store_urls)),
 ]
