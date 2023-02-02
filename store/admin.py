@@ -1,39 +1,48 @@
 from django.contrib import admin
 from ordered_model.admin import OrderedModelAdmin, OrderedTabularInline
 from . import models
+from django.db.models import Sum,Count
+
 
 
 @admin.register(models.Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["name","name_ar"]
+class CategoryAdmin(OrderedModelAdmin):
+    list_display = ["name","name_ar","number_of_products","products_of_this_category","move_up_down_links", "order"]
     search_fields = ['name','name_ar']
     
+    def number_of_products(self, obj):
+        query_set = models.Category.objects.filter(id=obj.id).aggregate(Count("products"))
+        return query_set['products__count']
+    
+    def products_of_this_category(self,obj):
+        link = f"http://127.0.0.1:8000/admin/store/product/?category__id__exact={obj.id}"
+        return link
     
     
-class OrderOptionsInline(OrderedTabularInline):
+class ProductOptionsInline(OrderedTabularInline):
     model = models.Option
     extra = 1
-    fields = ["name", "name_ar", "quantity", "price", "discount", "move_up_down_links"]
+    fields = ["name", "name_ar", "quantity", "price"]
     readonly_fields = ["move_up_down_links"]
     ordering = ("order",)
 
 
 
-class ImagesInline(admin.StackedInline):
+class ImagesInline(OrderedTabularInline):
     model = models.ProductImage
     extra = 1
     
 
 
 @admin.register(models.Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ["name", "name_ar", "slug", "available", "created", "updated"]
+class ProductAdmin(OrderedModelAdmin):
+    list_display = ["name", "name_ar", "slug", "available", "created", "updated","move_up_down_links", "order"]
     list_filter = ["category", "available", "created", "updated"]
     list_editable = ["available"]
     search_fields = ["name", "name_ar", "slug"]
     readonly_fields = ["slug", "created", "updated", "visits"]
     filter_horizontal = ["related_products"]
-    inlines = [OrderOptionsInline, ImagesInline]
+    inlines = [ProductOptionsInline, ImagesInline]
 
     def get_urls(self):
         return self.inlines[0](models.Product, self.admin_site).get_urls() + super().get_urls()

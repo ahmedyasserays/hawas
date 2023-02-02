@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 
 
-class Category(models.Model):
+class Category(OrderedModel):
     name = models.CharField(max_length=100)
     name_ar = models.CharField(max_length=150)
     slug = AutoSlugField(max_length=100, unique=True, populate_from="name")
@@ -26,8 +26,8 @@ class Category(models.Model):
 
 
 
-class Product(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+class Product(OrderedModel):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,related_name='products')
 
     name = models.CharField(max_length=100)
     name_ar = models.CharField(max_length=150)
@@ -50,7 +50,7 @@ class Product(models.Model):
     visits = models.PositiveIntegerField(default=0)
     
     class Meta:
-        ordering = ["-created"]
+        ordering = ["-created","order"]
         
 
     def __str__(self):
@@ -85,7 +85,7 @@ class Option(OrderedModel):
 
 
 
-class ProductImage(models.Model):
+class ProductImage(OrderedModel):
     img = models.ImageField()
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="images"
