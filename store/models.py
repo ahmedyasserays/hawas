@@ -2,9 +2,6 @@ from django.db import models
 from autoslug.fields import AutoSlugField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from ordered_model.models import OrderedModel
-from django.contrib.auth import get_user_model
-
-
 
 
 class Category(OrderedModel):
@@ -14,7 +11,7 @@ class Category(OrderedModel):
     img = models.ImageField(blank=True)
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["order"]
         indexes = [
             models.Index(fields=["name"]),
         ]
@@ -50,7 +47,7 @@ class Product(OrderedModel):
     visits = models.PositiveIntegerField(default=0)
     
     class Meta:
-        ordering = ["-created","order"]
+        ordering = ["order"]
         
 
     def __str__(self):
