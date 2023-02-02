@@ -4,6 +4,7 @@ from . import models
 from django.db.models import Sum,Count
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
+from django.conf import settings
 
 
 
@@ -18,8 +19,7 @@ class CategoryAdmin(OrderedModelAdmin):
         return query_set['products__count']
     
     def products_of_this_category(self,obj):
-        link = f"http://127.0.0.1:8000/admin/store/product/?category__id__exact={obj.id}"
-        return mark_safe(u' <a href="http://127.0.0.1:8000/admin/store/product/?category__id__exact=%s" >show products</a> ' % obj.id)
+        return mark_safe(u' <a href="%sadmin/store/product/?category__id__exact=%s" >show products</a> ' % (settings.BACKEND_URL,obj.id))
 
     products_of_this_category.allow_tags = True
     
