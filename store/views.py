@@ -3,7 +3,11 @@ from django.views import generic
 from . import models
 from django.db.models import Q, F, Sum, Avg, Count, Max, Prefetch
 from itertools import islice, chain
-
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import WishListSerializer
+from users.models import User
 
 # Create your views here.
 class Home(generic.TemplateView):
@@ -41,4 +45,35 @@ class Home(generic.TemplateView):
         )
 
         ctx["popular_products"] = chain(popular_products, most_paid_products)
+        
         return ctx
+
+
+
+class WishList_ListCreateApiView(APIView):
+    serializer_class = WishListSerializer
+
+    def post(self, request, *args, **kwargs):
+        id = int(request.data['id'])
+        user = request.user
+        if user.is_authenticated:
+            user.wishlist.add(id)
+            user.save()
+            return Response({"success":True})
+        
+
+        value = request.session.get('wishlist')
+        
+        if not value:
+            request.session['wishlist'] = [id]
+            request.session.modified = True
+        else:
+            if id not in request.session['wishlist']:
+                request.session['wishlist'].append(id)
+                request.session.modified = True
+            else:
+                request.session['wishlist'].remove(id)
+                request.session.modified = True
+                return Response({"deleted":True})
+
+        return Response({"success":True})

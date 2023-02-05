@@ -32,12 +32,10 @@ class ProductOptionsInline(OrderedTabularInline):
     ordering = ("order",)
 
 
-
 class ImagesInline(OrderedTabularInline):
     model = models.ProductImage
     extra = 1
     
-
 
 @admin.register(models.Product)
 class ProductAdmin(OrderedModelAdmin):
@@ -56,25 +54,6 @@ class ProductAdmin(OrderedModelAdmin):
 @admin.register(models.ProductReview)
 class ModelReviewAdmin(admin.ModelAdmin):
     list_display = ["user","product"]
-
-
-
-
-class OrderItemInline(admin.TabularInline):
-    model = models.OrderItem
-
-@admin.register(models.Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ["id", "user", "status","payment_method", "created", "updated"]
-    readonly_fields = ['total']
-    list_filter = ["user", "status","payment_method", "created", "updated"]
-    inlines = [OrderItemInline]
-
-    def total(self,obj):
-        return obj.total
-
-
-admin.site.register(models.Popular_Products)
 
 
 class OrderItemInline(admin.TabularInline):
