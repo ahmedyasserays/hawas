@@ -1,0 +1,54 @@
+<header class="w-full grid grid-cols-10 grid-rows-6 gap-4 p-4">
+    <div class="col-span-10 row-span-3 md:row-span-6 md:col-span-6 bg-pri/25 shadow-xl backdrop-blur-md rounded-2xl flex items-center p-8">
+        <div class="w-1/2 flex flex-col gap-4">
+            <h1 class="text-2xl md:text-4xl font-bold dark:text-cone drop-shadow-lg">
+                Welcome to <span class="text-ctwo">HAWAS</span> store
+            </h1>
+            <p class="dark:text-white text-lg font-light">{{ hero_section.description }}</p>
+            <a href="{{ hero_section.url }}"
+               type="button"
+               class="text-white w-fit shadow-lg bg-gradient-to-r dark:from-ctwo from-cone dark:via-cthree via-ctwo dark:to-cfour to-cthree hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                {{ hero_section.button_text }}
+            </a>
+        </div>
+        <div class="w-1/2">
+            <img src="{{ hero_section.image.url }}" class="h-full fds" alt="" />
+        </div>
+    </div>
+    <div class="bg-pri/25 col-span-10 md:col-span-4 row-span-1 md:row-span-3 shadow-xl backdrop-blur-md rounded-2xl p-4 md:p-6 flex gap-4 items-center">
+        <div class="h-full min-w-[4rem]">
+            <img {% if categories.0.img %} src="{{ categories.0.img.url }}"{% endif %}
+                 class="h-full object-contain fds"
+                 alt=""/>
+        </div>
+        <div class="">
+            <h1 class="text-xl font-bold dark:text-white">{{ categories.0.name }}</h1>
+            <p class="dark:text-white text-sm">
+                Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor
+                sit amet consectetur.
+            </p>
+        </div>
+    </div>
+    <div class="bg-pri/25 shadow-xl row-span-2 md:row-span-3 backdrop-blur-md rounded-2xl p-4 md:p-6 col-span-5 md:col-span-2">
+        <div class="">
+            <h1 class="text-2xl font-bold dark:text-white">{{ categories.1.name }}</h1>
+            <p class="dark:text-white text-sm">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <div class="h-[70%]">
+            <img {% if categories.1.img %} src="{{ categories.1.img.url }}"{% endif %}
+                 class="h-full w-full fds object-contain"
+                 alt=""/>
+        </div>
+    </div>
+    <div class="bg-pri/25 shadow-xl row-span-2 md:row-span-3 backdrop-blur-md rounded-2xl p-4 md:p-6 col-span-5 md:col-span-2">
+        <div class="">
+            <h1 class="text-xl font-bold dark:text-white">{{ categories.2.name }}</h1>
+            <p class="dark:text-white text-sm">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <div class="h-[70%]">
+            <img src="{{ categories.2.img.url }}"
+                 class="h-full w-full fds object-contain"
+                 alt=""/>
+        </div>
+    </div>
+</header>

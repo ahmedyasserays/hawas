@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .forms import UserCreationForm, UserEditForm
+from .forms import CustomUserCreationForm, UserEditForm
 from .models import  User,CartItem
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import Group
 
-
-
+admin.site.unregister(Group)
 
 class CartItemAdmin(admin.TabularInline):
     model = CartItem
@@ -14,10 +14,11 @@ class CartItemAdmin(admin.TabularInline):
     
     def price(self, obj):
         return obj.option.price*obj.quantity
-    
+
+@admin.register(User)
 class CustomUserAdmin(UserAdmin):
     form = UserEditForm
-    add_form = UserCreationForm
+    add_form = CustomUserCreationForm
     ordering = ('-start_date', 'email',)
     search_fields = ('first_name', 'last_name', 'email')
     list_display = ('email', 'first_name', 'last_name', 'is_staff')
@@ -25,7 +26,7 @@ class CustomUserAdmin(UserAdmin):
     readonly_fields = ('start_date',)
 
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (_('Login details'), {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': (
                                         'first_name', 'last_name')}),
         (_('Permissions'), {
@@ -41,5 +42,3 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
     inlines = [CartItemAdmin]
-    
-admin.site.register(User, CustomUserAdmin)
