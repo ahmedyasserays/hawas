@@ -37,7 +37,9 @@ class OptionFactory(DjangoModelFactory):
     slug = factory.Faker("slug")
     product = factory.SubFactory(ProductFactory)
     quantity = factory.Faker("pyint")
-    price = factory.LazyAttribute(lambda x:random.randrange(1, 10_000) + random.random())
+    price = factory.LazyAttribute(
+        lambda x: random.randrange(1, 10_000) + random.random()
+    )
 
     discount = factory.Faker("pyfloat")
 

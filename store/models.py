@@ -10,7 +10,9 @@ from .managers import ProductManager
 class AbstractNamedModel(OrderedModel):
     name = models.CharField(max_length=100)
     name_ar = models.CharField(max_length=150)
-    slug = AutoSlugField(max_length=100, unique=True, populate_from="name", db_index=True)
+    slug = AutoSlugField(
+        max_length=100, unique=True, populate_from="name", db_index=True
+    )
 
     class Meta:
         abstract = True
@@ -19,7 +21,7 @@ class AbstractNamedModel(OrderedModel):
 
 class Category(AbstractNamedModel):
     # TODO: add default
-    img = models.ImageField(blank=True,  upload_to='category')
+    img = models.ImageField(blank=True, upload_to="category")
 
     class Meta:
         ordering = ["order"]
@@ -33,37 +35,43 @@ class Category(AbstractNamedModel):
 
 
 class Product(AbstractNamedModel):
-    objects:ProductManager = ProductManager.as_manager()
-    
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,related_name='products')
- 
+    objects: ProductManager = ProductManager.as_manager()
+
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="products"
+    )
+
     describtion = models.TextField(max_length=1000)
     describtion_ar = models.TextField(max_length=1000)
 
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    
+
     related_products = models.ManyToManyField(
         "Product", related_name="parents", blank=True
     )
-    
+
     visits = models.PositiveIntegerField(default=0)
     is_popular = models.BooleanField(default=False)
-    
+
     order_with_respect_to = "category"
-    
-    
+
     def __str__(self):
         return self.name
-    
-    
+
+
 class Option(AbstractNamedModel):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="options"
     )
     quantity = models.PositiveIntegerField()
-    price = models.FloatField(validators=[MinValueValidator(1, "Can't set price less than 1"), MaxValueValidator(100000, "Can't set price more than 100000")])
+    price = models.FloatField(
+        validators=[
+            MinValueValidator(1, "Can't set price less than 1"),
+            MaxValueValidator(100000, "Can't set price more than 100000"),
+        ]
+    )
     discount = models.FloatField(
         validators=[
             MaxValueValidator(100, "Can't make discount more than 100%"),
@@ -73,7 +81,7 @@ class Option(AbstractNamedModel):
     )
 
     order_with_respect_to = "product"
-    
+
     def __str__(self) -> str:
         return f"{self.product.name} | {self.name}"
 
@@ -107,15 +115,13 @@ class Order(models.Model):
     alt_phone = models.CharField(max_length=20, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    notes = models.CharField(max_length=150,blank=True,null=True)
+    notes = models.CharField(max_length=150, blank=True, null=True)
 
     class PaymentChoices(models.TextChoices):
         CASH_ON_DELIVERY = "cash_on_delivery", "Cash on delivery"
         ONLINE_PAYMENT = "online_payment", "Online Payment"
 
-    payment_method = models.CharField(
-        max_length=150, choices=PaymentChoices.choices
-    )
+    payment_method = models.CharField(max_length=150, choices=PaymentChoices.choices)
 
     class StatusChoices(models.TextChoices):
         # online: unpaid -> paid -> delivered / canceled -> pending_refund -> refunded
@@ -128,31 +134,25 @@ class Order(models.Model):
         REFUNDED = "refunded", "Refunded"
         DELIVERED = "delivered", "Delivered"
 
-    status = models.CharField(
-        max_length=150, choices=StatusChoices.choices
-    )
+    status = models.CharField(max_length=150, choices=StatusChoices.choices)
 
     class Meta:
         ordering = ["-created"]
         indexes = [models.Index(fields=["-created"])]
-        
-    
+
     @property
     def count(self):
-        return self.items.aggregate(count=Sum('quantity'))
-    
+        return self.items.aggregate(count=Sum("quantity"))
 
     @property
     def total(self):
-        res =  sum(
-            item.get_cost() for item in self.items.all()
-        )  
+        res = sum(item.get_cost() for item in self.items.all())
         # TODO convert to databse calculation
         # res = self.items.annotate(cost=F("price") * F("quantity")).aggregate(total=Sum('cost'))
-        
+
         if self.fast_delivery:
             res += 15
-            
+
         return res
 
     def __str__(self):
@@ -160,7 +160,9 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, related_name="order_items", on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order, related_name="order_items", on_delete=models.CASCADE
+    )
     option = models.ForeignKey(
         Option, related_name="order_items", on_delete=models.CASCADE
     )
