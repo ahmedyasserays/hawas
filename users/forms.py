@@ -2,7 +2,11 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 
-from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import (
+    ReadOnlyPasswordHashField,
+    UserCreationForm,
+    UserChangeForm,
+)
 
 from .models import User
 
@@ -61,11 +65,13 @@ class DeliveryDetailsForm(forms.ModelForm):
     alt_phone = forms.CharField(required=False, label="Alternative Phone")
     country = forms.CharField(required=True, label="Country")
     state = forms.IntegerField(required=True, label="State")
-    street = forms.IntegerField(required=True , label="Street")
+    street = forms.IntegerField(required=True, label="Street")
     zone = forms.IntegerField(required=True, label="Zone")
     address = forms.IntegerField(required=True, label="Address")
     notes = forms.CharField(required=False, label="Notes")
-    is_fast_delivery = forms.BooleanField(initial=False, required=False, label="Fast Delivary")
+    is_fast_delivery = forms.BooleanField(
+        initial=False, required=False, label="Fast Delivary"
+    )
 
     class Meta:
         model = User

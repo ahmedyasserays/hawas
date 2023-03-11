@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("store", "0003_alter_productimage_options_category_order_and_more"),
     ]

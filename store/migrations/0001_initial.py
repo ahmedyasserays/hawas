@@ -7,76 +7,162 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('name_ar', models.CharField(max_length=150)),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=100, populate_from='name', unique=True)),
-                ('img', models.ImageField(blank=True, upload_to='')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("name_ar", models.CharField(max_length=150)),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=100,
+                        populate_from="name",
+                        unique=True,
+                    ),
+                ),
+                ("img", models.ImageField(blank=True, upload_to="")),
             ],
             options={
-                'verbose_name': 'category',
-                'verbose_name_plural': 'categories',
-                'ordering': ['name'],
+                "verbose_name": "category",
+                "verbose_name_plural": "categories",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Option',
+            name="Option",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.PositiveIntegerField(db_index=True, editable=False, verbose_name='order')),
-                ('name', models.CharField(max_length=150)),
-                ('name_ar', models.CharField(max_length=150)),
-                ('quantity', models.PositiveIntegerField()),
-                ('price', models.FloatField()),
-                ('discount', models.FloatField(default=0, validators=[django.core.validators.MaxValueValidator(100, "Can't make discount more than 100%"), django.core.validators.MinValueValidator(0, "Can't create offer less than 0%")])),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "order",
+                    models.PositiveIntegerField(
+                        db_index=True, editable=False, verbose_name="order"
+                    ),
+                ),
+                ("name", models.CharField(max_length=150)),
+                ("name_ar", models.CharField(max_length=150)),
+                ("quantity", models.PositiveIntegerField()),
+                ("price", models.FloatField()),
+                (
+                    "discount",
+                    models.FloatField(
+                        default=0,
+                        validators=[
+                            django.core.validators.MaxValueValidator(
+                                100, "Can't make discount more than 100%"
+                            ),
+                            django.core.validators.MinValueValidator(
+                                0, "Can't create offer less than 0%"
+                            ),
+                        ],
+                    ),
+                ),
             ],
             options={
-                'ordering': ('order',),
-                'abstract': False,
+                "ordering": ("order",),
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('name_ar', models.CharField(max_length=150)),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=100, populate_from='name', unique=True)),
-                ('describtion', models.TextField(max_length=1000)),
-                ('describtion_ar', models.TextField(max_length=1000)),
-                ('available', models.BooleanField(default=True)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('visits', models.PositiveIntegerField(default=0)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("name_ar", models.CharField(max_length=150)),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=100,
+                        populate_from="name",
+                        unique=True,
+                    ),
+                ),
+                ("describtion", models.TextField(max_length=1000)),
+                ("describtion_ar", models.TextField(max_length=1000)),
+                ("available", models.BooleanField(default=True)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("visits", models.PositiveIntegerField(default=0)),
             ],
             options={
-                'ordering': ['-created'],
+                "ordering": ["-created"],
             },
         ),
         migrations.CreateModel(
-            name='ProductImage',
+            name="ProductImage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('img', models.ImageField(upload_to='')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("img", models.ImageField(upload_to="")),
             ],
         ),
         migrations.CreateModel(
-            name='ProductReview',
+            name="ProductReview",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('rate', models.PositiveIntegerField(validators=[django.core.validators.MaxValueValidator(5, "Can't rate product with more than 5 starts")])),
-                ('comment', models.TextField()),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "rate",
+                    models.PositiveIntegerField(
+                        validators=[
+                            django.core.validators.MaxValueValidator(
+                                5, "Can't rate product with more than 5 starts"
+                            )
+                        ]
+                    ),
+                ),
+                ("comment", models.TextField()),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="store.product"
+                    ),
+                ),
             ],
         ),
     ]
