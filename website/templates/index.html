@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+    {% include "parts/header.html" %}
+    <!-- start new arrival -->
+    <section class="py-8 md:py-12">
+        <div class="px-4 text-center dark:text-pri">
+            <h2 class="font-bold text-3xl">{{ new_arrivals_section.title }}</h2>
+            <p class="font-light max-w-screen-md mb-8 mx-auto">{{ new_arrivals_section.description }}</p>
+        </div>
+        <div class="container hidden md:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <!-- start product -->
+            {% for prod in new_arrivals %}
+                {% include "store/parts/prod-card.html" %}
+            {% endfor %}
+            <!-- end prodcut -->
+        </div>
+        <div class="container md:hidden">
+            <!-- Slider main container -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    {% for prod in new_arrivals %}
+                        {% include "store/parts/prod-card-slider.html" %}
+                    {% endfor %}
+                </div>
+                <div class="swiper-button-next na-next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="swiper-button-prev na-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+    <!-- End of new arrival -->
+    <!-- start Popular -->
+    <section class="py-8 md:py-12">
+        <div class="px-4 text-center dark:text-pri">
+            <h2 class="font-bold text-3xl capitalize">{{ popular_products_section.title }}</h2>
+            <p class="font-light max-w-screen-md mb-8 mx-auto">{{ popular_products_section.description }}</p>
+        </div>
+        <div class="container hidden md:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <!-- start product -->
+            {% for prod in popular_products %}
+                {% include "store/parts/prod-card.html" %}
+            {% endfor %}
+            <!-- end prodcut -->
+        </div>
+        <div class="container md:hidden">
+            <!-- Slider main container -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    {% for prod in popular_products %}
+                        {% include "store/parts/prod-card-slider.html" %}
+                    {% endfor %}
+                </div>
+                <div class="swiper-button-next na-next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="swiper-button-prev na-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+    <!-- End of Popular -->
+{% endblock content %}

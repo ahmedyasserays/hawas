@@ -2,5 +2,10 @@
 *.pyc
 /venv/
 /env/
-/media/
 db.sqlite3
+
+
+# please leave the root so we can still upload the default images
+/media/hero
+/media/products/
+/media/category/

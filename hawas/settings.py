@@ -40,10 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'users',
-    'store',
     'ordered_model',
     'rest_framework',
+    'solo',
+    'django_cleanup.apps.CleanupConfig',
+
+    'users',
+    'store',
+    'website',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +60,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 ROOT_URLCONF = 'hawas.urls'
 
 TEMPLATES = [

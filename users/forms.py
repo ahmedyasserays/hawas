@@ -1,12 +1,13 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm, UserChangeForm
 
 from .models import User
 
 
-class UserCreationForm(forms.ModelForm):
+class CustomUserCreationForm(UserCreationForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
 
@@ -36,7 +37,7 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 
-class UserEditForm(forms.ModelForm):
+class UserEditForm(UserChangeForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:

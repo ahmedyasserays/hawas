@@ -1,0 +1,26 @@
+<div class="swiper-slide">
+    <div class="box rounded shadow-lg">
+        <div class="imgBx relative overflow-hidden bg-gray-500/25 dark:bg-gray-50/25">
+            <div class="btns transition absolute flex gap-4 flex-col top-4 right-4 z-10">
+                <a href="#"
+                   class="p-2 md:p-3 shadow-md rounded bg-ctwo dark:bg-cthree text-cfour dark:text-cone"><i class="fas fa-heart"></i
+                ></a>
+                <a href="#"
+                   class="p-2 md:p-3 shadow-md rounded bg-ctwo dark:bg-cthree text-cfour dark:text-cone"><i class="fas fa-share"></i
+                ></a>
+            </div>
+            <img src="{{ prod.first_image.0.img.url }}" alt="" />
+        </div>
+        <div class="flex flex-col gap-2 bg-cone dark:bg-cfour text-cfour dark:text-cone p-4">
+            <a href="/" class="text-2xl hover:underline">{{ prod.name }}
+                <i class="fas fa-link text-sm"></i
+                >
+            </a>
+            <p class="opacity-80">{{ prod.describtion|truncatewords:5 }}</p>
+            <h4 class="text-xl font-bold">{{ prod.price|floatformat:2 }} EGP</h4>
+            <button class="w-full p-4 text-center bg-ctwo dark:bg-cthree hover:scale-105 transition">
+                Add to cart
+            </button>
+        </div>
+    </div>
+</div>
