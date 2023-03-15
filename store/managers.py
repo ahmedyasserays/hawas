@@ -1,4 +1,13 @@
-from django.db.models import Max, Min, Prefetch, Sum, Case, When, Value, PositiveIntegerField
+from django.db.models import (
+    Max,
+    Min,
+    Prefetch,
+    Sum,
+    Case,
+    When,
+    Value,
+    PositiveIntegerField,
+)
 from ordered_model.models import OrderedModelQuerySet
 
 
@@ -40,7 +49,7 @@ class ProductManager(OrderedModelQuerySet):
                 orders_count=Case(
                     When(is_popular=True, then=Value("infinity")),
                     default=Sum("options__order_items__quantity"),
-                    output_field=PositiveIntegerField()
+                    output_field=PositiveIntegerField(),
                 )
             )
             .order_by("-orders_count")

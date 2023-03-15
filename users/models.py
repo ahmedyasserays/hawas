@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.utils.translation import gettext_lazy as _
-from store.models import Option,Product
+from store.models import Option, Product
 
 
 class UserManager(BaseUserManager):
@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
@@ -88,19 +88,21 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class BillingAddress(models.Model):
-    user = models.ForeignKey(User, related_name="billing_adresses", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, related_name="billing_adresses", on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=150, blank=True)
     state = models.CharField(max_length=150, blank=True)
     city = models.CharField(max_length=150, blank=True)
     address = models.CharField(max_length=300, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
     is_default = models.BooleanField(default=False)
-    
-    
+
+
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-        
+
     class Meta:
         unique_together = ["user", "option"]
