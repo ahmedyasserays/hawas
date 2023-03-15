@@ -6,46 +6,59 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('store', '0001_initial'),
+        ("store", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='productreview',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="productreview",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='productimage',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='store.product'),
+            model_name="productimage",
+            name="product",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="images",
+                to="store.product",
+            ),
         ),
         migrations.AddField(
-            model_name='product',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.category'),
+            model_name="product",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="store.category"
+            ),
         ),
         migrations.AddField(
-            model_name='product',
-            name='related_products',
-            field=models.ManyToManyField(blank=True, related_name='parents', to='store.product'),
+            model_name="product",
+            name="related_products",
+            field=models.ManyToManyField(
+                blank=True, related_name="parents", to="store.product"
+            ),
         ),
         migrations.AddField(
-            model_name='option',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='options', to='store.product'),
+            model_name="option",
+            name="product",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="options",
+                to="store.product",
+            ),
         ),
         migrations.AddIndex(
-            model_name='category',
-            index=models.Index(fields=['name'], name='store_categ_name_1278fd_idx'),
+            model_name="category",
+            index=models.Index(fields=["name"], name="store_categ_name_1278fd_idx"),
         ),
         migrations.AlterUniqueTogether(
-            name='productreview',
-            unique_together={('user', 'product')},
+            name="productreview",
+            unique_together={("user", "product")},
         ),
     ]
