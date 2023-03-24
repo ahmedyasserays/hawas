@@ -2,9 +2,10 @@ from autoslug.fields import AutoSlugField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Sum
+from django.urls import reverse
 from ordered_model.models import OrderedModel
 
-from .managers import ProductManager
+from .managers import ProductQuerySet
 
 
 class AbstractNamedModel(OrderedModel):
@@ -35,7 +36,7 @@ class Category(AbstractNamedModel):
 
 
 class Product(AbstractNamedModel):
-    objects: ProductManager = ProductManager.as_manager()
+    objects: ProductQuerySet = ProductQuerySet.as_manager()
 
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="products"
@@ -59,6 +60,9 @@ class Product(AbstractNamedModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("product_detail", kwargs={"slug": self.slug})
 
 
 class Option(AbstractNamedModel):

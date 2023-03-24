@@ -11,12 +11,18 @@ from django.db.models import (
 from ordered_model.models import OrderedModelQuerySet
 
 
-class ProductManager(OrderedModelQuerySet):
+class ProductQuerySet(OrderedModelQuerySet):
     def available(self):
         return self.filter(available=True)
 
+    def with_options(self):
+        return self.prefetch_related("options")
+
     def with_images(self):
         return self.prefetch_related("images")
+    
+    def with_related_products(self):
+        return self.prefetch_related("related_products")
 
     def with_first_image(self):
         from .models import ProductImage

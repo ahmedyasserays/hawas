@@ -15,7 +15,7 @@ class CartItemAdmin(admin.TabularInline):
 
     def price(self, obj):
         return obj.option.price * obj.quantity
-
+    
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
@@ -40,7 +40,10 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
         (_("Important dates"), {"fields": ("last_login", "start_date")}),
+        (_("Products"), {"fields": ("wishlist",)}),
     )
+
+    filter_horizontal = ("wishlist",)
 
     add_fieldsets = (
         (

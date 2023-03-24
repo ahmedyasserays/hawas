@@ -5,13 +5,14 @@
                class="p-3 shadow-md rounded-md bg-ctwo dark:bg-cthree text-cfour dark:text-cone"><i class="fas fa-heart"></i
             ></a>
             <a href="#"
-               class="p-3 shadow-md rounded-md bg-ctwo dark:bg-cthree text-cfour dark:text-cone"><i class="fas fa-share"></i
+                   data-url="{% url 'product_detail' prod.slug %}"
+                   class="p-3 shadow-md rounded-md bg-ctwo dark:bg-cthree text-cfour dark:text-cone"><i class="fas fa-share"></i
             ></a>
         </div>
         <img src="{{ prod.first_image.0.img.url }}" alt="" />
     </div>
     <div class="flex flex-col gap-2 bg-cone dark:bg-cfour text-cfour dark:text-cone p-4">
-        <a href="/" class="text-2xl hover:underline">{{ prod.name }} <i class="fas fa-link text-sm"></i
+        <a href="{% url 'product_detail' prod.slug %}" class="text-2xl hover:underline">{{ prod.name }} <i class="fas fa-link text-sm"></i
         ></a>
         <p class="opacity-80">{{ prod.describtion|truncatewords:5 }}</p>
         <h4 class="text-xl font-bold">{{ prod.price|floatformat:2 }} EGP</h4>
