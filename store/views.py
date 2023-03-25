@@ -11,7 +11,7 @@ from store.managers import ProductQuerySet
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = "store/product_detail.html"
+    template_name = "store/product_details.html"
     context_object_name = "product"
 
     def get_queryset(self):

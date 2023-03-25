@@ -29,3 +29,6 @@ class Command(BaseCommand):
 
             for _ in range(self.NUM_IMAGES_PER_PRODUCT):
                 ImageFactory(product=prod)
+        
+        for prod in prods:
+            prod.related_products.set(random.sample(prods, random.randint(0, 15)))

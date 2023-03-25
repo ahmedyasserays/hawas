@@ -22,7 +22,9 @@ class ProductQuerySet(OrderedModelQuerySet):
         return self.prefetch_related("images")
     
     def with_related_products(self):
-        return self.prefetch_related("related_products")
+        related_qs = self.model.objects.available().with_first_image().with_price()
+        related_products = Prefetch("related_products", queryset=related_qs)
+        return self.prefetch_related(related_products)
 
     def with_first_image(self):
         from .models import ProductImage

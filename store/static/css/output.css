@@ -1920,7 +1920,7 @@ video {
 @font-face {
   font-family: 'Iowan Old Style';
 
-  src: url(./fonts/bitstream_iowan_old_style_bt.ttf);
+  src: url(../fonts/bitstream_iowan_old_style_bt.ttf);
 }
 
 *{
@@ -1941,7 +1941,7 @@ html, body {
 }
 
 .overlay{
-  background-image: url("/src/images/wave.png");
+  background-image: url("../images/wave.png");
   width: 100%;
   height: 100%;
   position: absolute;
