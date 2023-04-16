@@ -1,26 +1,36 @@
-<div class="box rounded shadow-lg">
+<div class="box rounded-lg shadow-lg overflow-hidden flex flex-col">
     <div class="imgBx relative overflow-hidden bg-gray-500/25 dark:bg-gray-50/25">
-        <div class="btns transition absolute flex gap-4 flex-col top-4 right-4 translate-x-[200%] z-10">
-            <a href="#"
-               class="p-3 shadow-md rounded-md bg-ctwo dark:bg-cthree text-cfour dark:text-cone">
-                <i class="fas fa-heart"></i>
-            </a>
-            <a href="#"
-               data-url="{% url 'product_details' prod.slug %}"
-               class="p-3 shadow-md rounded-md bg-ctwo dark:bg-cthree text-cfour dark:text-cone">
-                <i class="fas fa-share"></i>
-            </a>
+        <div class="btns transition absolute flex gap-4 flex-col top-4 right-4 z-10">
+            <button href="#"
+                    onclick="handleWishlist(this)"
+                    data-url="{% url 'update_wishlist' prod.id %}"
+                    data-csrf="{{ csrf_token }}"
+                    {% if prod.in_wishlist %}data-is-in-wishlist="true"{% endif %}
+                    class="p-2 md:p-3 shadow-md rounded bg-cthree dark:bg-cone text-cone dark:text-cthree"><i class="fas fa-heart transition duration-300 {% if prod.in_wishlist %}text-red-500{% endif %}"></i></button>
+            <button
+               onclick="handleShare('{% url 'product_details' prod.slug %}', '{{ prod.name }}')"
+               class="share p-2 md:p-3 shadow-md rounded bg-cthree dark:bg-cone text-cone dark:text-cthree"><i class="fas fa-share"></i></button>
         </div>
         <img src="{{ prod.first_image.0.img.url }}" alt="" />
     </div>
-    <div class="flex flex-col gap-2 bg-cone dark:bg-cfour text-cfour dark:text-cone p-4">
+    <div class="flex flex-col justify-between gap-2 bg-cone dark:bg-cfour text-cfour dark:text-cone p-2 md:p-4 flex-1">
         <a href="{% url 'product_details' prod.slug %}"
-           class="text-2xl hover:underline">
-            {{ prod.name }}
-            <i class="fas fa-link text-sm"></i>
-        </a>
+           class="text-xl md:text-2xl hover:underline">{{ prod.name }}
+            <i class="fas fa-link text-sm"></i></a>
         <p class="opacity-80">{{ prod.describtion|truncatewords:5 }}</p>
-        <h4 class="text-xl font-bold">{{ prod.price|floatformat:2 }} EGP</h4>
-        <button class="w-full p-4 text-center bg-ctwo dark:bg-cthree hover:scale-105 transition">Add to cart</button>
+        <h4 class="text-xl font-bold">{{ prod.price_after_discount|floatformat:2 }} EGP</h4>
+        <form class="cart-form" >
+            {% csrf_token %}
+            <input type="hidden" name="product" value="{{ prod.id }}">
+            <input type="hidden" name="color" value="{{ prod.first_color }}">
+            <input type="hidden" name="size" value="{{ prod.first_size }}">
+            <input type="hidden" name="quantity" value="1">
+            <button class="w-full overflow-hidden p-2 md:p-4 text-center bg-cthree hover:scale-105 transition text-cone rounded-md relative" type="submit">
+                Add to cart
+                <span class="w-[350px] h-[350px] rounded-full flex items-center justify-center bg-gradient-to-b transition duration-500 scale-0 from-green-500 to-green-600 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <i class="fas fa-check"></i>
+                </span>
+            </button>
+        </form>
     </div>
 </div>

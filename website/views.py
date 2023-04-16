@@ -18,10 +18,12 @@ class HomeView(TemplateView):
         ctx["new_arrivals"] = (
             Product.objects.available()
             .with_first_image()
-            .with_price()
+            .with_first_color()
+            .with_first_size()
+            .with_wishlist(self.request)
             .order_by("-created")[:8]
         )
         ctx["popular_products"] = (
-            Product.objects.popular().with_first_image().with_price()[:8]
+            Product.objects.popular().with_first_image()[:8]
         )
         return ctx

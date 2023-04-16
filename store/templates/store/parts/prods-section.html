@@ -10,7 +10,9 @@
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             {% for prod in prods %}
-                {% include "store/parts/prod-card-slider.html" %}
+                <div class="swiper-slide">
+                    {% include "store/parts/prod-card.html" %}
+                </div>
             {% endfor %}
         </div>
         <div class="swiper-button-next na-next">

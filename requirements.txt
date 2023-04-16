@@ -9,3 +9,5 @@ django-debug-toolbar==3.8.1
 factory_boy==3.2.1
 django-solo==2.0.0
 django-cleanup==7.0.0
+django-colorfield==0.8.0
+djangorestframework==3.14.0

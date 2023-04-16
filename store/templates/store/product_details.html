@@ -1,6 +1,87 @@
 {% extends 'base.html' %}
+{% block title %}
+    <title>Shop | {{ product.name }} | Hawas</title>
+{% endblock title %}
+{% block extrahead %}
+    <style>
+    .white-lg {
+       background: -webkit-linear-gradient(#e0c097, #b85c38);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+    }
+    </style>
+    <style>
+    .swiper {
+       width: 100%;
+       height: 100%;
+    }
+
+    .swiper-slide {
+       text-align: center;
+       font-size: 18px;
+       /* background: #fff; */
+       display: flex;
+       justify-content: center;
+       align-items: center;
+    }
+
+    .swiper-slide img {
+       display: block;
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
+    }
+
+    .swiper {
+       width: 100%;
+       height: 300px;
+       margin-left: auto;
+       margin-right: auto;
+    }
+
+    .swiper-slide {
+       background-size: cover;
+       background-position: center;
+    }
+
+    .mySwiper2 {
+       max-height: 30rem;
+       min-height: 20rem;
+       width: 100%;
+    }
+
+    .mySwiper {
+       height: 20%;
+       box-sizing: border-box;
+       padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+       width: 25%;
+       height: 100%;
+       opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+       opacity: 1;
+    }
+
+    .swiper-slide img {
+       display: block;
+       width: 100%;
+       height: 100%;
+       object-fit: contain;
+    }
+
+    .white-lg {
+       background: -webkit-linear-gradient(#E0C097, #B85C38);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+    }
+    </style>
+{% endblock extrahead %}
 {% block content %}
-    <div class="grid grid-cols-1 md:grid-cols-2 container mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 container mb-8 pt-24">
         <section>
             <!-- Swiper -->
             <div style="--swiper-navigation-color: #fff;
@@ -19,7 +100,7 @@
             <div thumbsSlider="" class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     {% for image in product.images.all %}
-                        <div class="swiper-slide bg-white shadow-md rounded-md dark:bg-neutral-800 p-2 md:p-4">
+                        <div class="swiper-slide flex-1 bg-white shadow-md rounded-md dark:bg-neutral-800 p-2 md:p-4">
                             <img src="{{ image.img.url }}" alt="{{ product.name }}" />
                         </div>
                     {% endfor %}
@@ -30,64 +111,94 @@
             <h4 class="font-bold text-ctwo mb-4 uppercase text-xs tracking-[.4em]">HAWAS store</h4>
             <h1 class="dark:text-white mb-4 font-bold text-3xl lg:text-4xl">{{ product.name }}</h1>
             <p class="text-gray-700 dark:text-gray-300 mb-6 text-base sm:text-lg">{{ product.describtion }}</p>
-            <div class="colors flex gap-4 mb-4">
-                <button class="rounded-full w-4 h-4 ring-offset-2 ring-2 ring-cone ring-offset-slate-50 dark:ring-offset-neutral-900 bg-gray-600">
-                </button>
-                <button class="rounded-full w-4 h-4 ring-offset-2 ring-2 ring-cone ring-offset-slate-50 dark:ring-offset-neutral-900 bg-blue-600">
-                </button>
-                <button class="rounded-full w-4 h-4 ring-offset-2 ring-2 ring-cone ring-offset-slate-50 dark:ring-offset-neutral-900 bg-yellow-600">
-                </button>
-                <button class="rounded-full w-4 h-4 ring-offset-2 ring-2 ring-cone ring-offset-slate-50 dark:ring-offset-neutral-900 bg-red-600">
-                </button>
-            </div>
-            <div class="options flex gap-2 mb-4 dark:text-white">
-                <button class="option uppercase border rounded border-gray-300 dark:border-gray-700 w-10 flex justify-center items-center h-10 active-option">
-                    s
-                </button>
-                <button class="option uppercase border rounded border-gray-300 dark:border-gray-700 w-10 flex justify-center items-center h-10">
-                    m
-                </button>
-                <button class="option uppercase border rounded border-gray-300 dark:border-gray-700 w-10 flex justify-center items-center h-10">
-                    l
-                </button>
-            </div>
-            <div class="flex dark:text-white  flex-col items-start justify-between mb-6 sm:flex-col sm:items-start">
-                <div class="flex items-center gap-4">
-                    <h3 class="white-lg font-bold text-3xl inline-block">125.00 EGP</h3>
+            <form class="cart-form">
+                {% csrf_token %}
+                <input type="hidden" name="product" value="{{ product.id }}">
+                <div class="colors flex gap-4 mb-4">
+                    {% for color in product.available_colors.all %}
+                        <input id="color{{ color.id }}"
+                               type="radio"
+                               name="color"
+                               value="{{ color.id }}"
+                               class="color"
+                               hidden
+                               {% if forloop.first %}checked{% endif %}>
+                        <label for="color{{ color.id }}"
+                               class="color rounded-full w-4 h-4 ring-cone ring-offset-slate-50 dark:ring-offset-neutral-900 cursor-pointer"
+                               style="background-color: {{ color.code }}">
+                        </label>
+                    {% endfor %}
                 </div>
-                <p class="w-fit  line-through decoration-1 my-auto">250.00 EGP</p>
-            </div>
-            <div>
-                <div class="custom-number-input h-10 w-28">
-                    <div class="dark:text-white flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                        <button data-action="decrement"
-                                class="h-full w-20 rounded-l cursor-pointer outline-none">
-                            <span class="m-auto text-2xl font-thin">−</span>
+                <div class="options flex gap-2 mb-4 dark:text-white">
+                    {% for size in product.available_sizes.all %}
+                        <input id="size{{ size.id }}"
+                               type="radio"
+                               name="size"
+                               value="{{ size.id }}"
+                               class="size"
+                               hidden
+                               {% if forloop.first %}checked{% endif %}>
+                        <label for="size{{ size.id }}"
+                               class="option uppercase border rounded border-gray-300 dark:border-gray-700 flex justify-center items-center cursor-pointer py-2 px-4"
+                               {% if forloop.first %}checked{% endif %}>
+                            {{ size.name }}
+                        </label>
+                    {% endfor %}
+                </div>
+                <div class="flex dark:text-white  flex-col items-start justify-between mb-6 sm:flex-col sm:items-start">
+                    <div class="flex items-center gap-4">
+                        <h3 class="white-lg font-bold text-3xl inline-block">{{ product.price_after_discount|floatformat:2 }} EGP</h3>
+                    </div>
+                    {% if product.discount > 0 %}
+                        <p class="w-fit  line-through decoration-1 my-auto">{{ product.price|floatformat:2 }} EGP</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <div class="custom-number-input h-10 w-28">
+                        <div class="dark:text-white flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                            <button data-action="decrement"
+                                    type="button"
+                                    class="h-full w-20 rounded-l cursor-pointer outline-none">
+                                <span class="m-auto text-2xl font-thin">−</span>
+                            </button>
+                            <input type="number"
+                                   class="outline-none focus:outline-none text-center w-full bg-transparent text-lg text-md  md:text-basecursor-default flex items-center"
+                                   name="quantity"
+                                   value="1"/>
+                            <button data-action="increment"
+                                    class="h-full w-20 rounded-r cursor-pointer"
+                                    type="button">
+                                <span class="m-auto text-2xl font-thin">+</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="rounded-md relative overflow-hidden h-12 bg-gradient-to-b from-cone to-ctwo dark:from-ctwo dark:to-cthree text-white py-2 px-4 md:px-8 sm-w-full flex items-center justify-center mt-4 gap-4"
+                                type="submit"
+                                id="add-cart">
+                            <i class="far fa-cart-plus"></i>
+                            Add To Cart
+                            <span class="w-[350px] h-[350px] rounded-full flex items-center justify-center bg-gradient-to-b transition duration-500 scale-0 from-green-500 to-green-600 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                <i class="fas fa-check"></i>
+                            </span>
                         </button>
-                        <input type="number"
-                               class="outline-none focus:outline-none text-center w-full bg-transparent text-lg text-md  md:text-basecursor-default flex items-center"
-                               name="custom-input-number"
-                               value="1"/>
-                        <button data-action="increment" class="h-full w-20 rounded-r cursor-pointer">
-                            <span class="m-auto text-2xl font-thin">+</span>
+                        <button class="rounded-md h-12 bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-red-500 dark:text-red-700 py-2 px-4 md:px-6 sm-w-full flex items-center justify-center  text-lg mt-4 gap-4"
+                                onclick="handleWishlist(this)"
+                                data-url="{% url 'update_wishlist' product.id %}"
+                                data-csrf="{{ csrf_token }}"
+                                data-inactive-class="text-gray-500"
+                                {% if in_wishlist %}data-is-in-wishlist="true"{% endif %}
+                                type="button">
+                            <i class="fas fa-heart transition duration-300 {% if in_wishlist %} text-red-500 {% else %} text-gray-500{% endif %}"></i>
+                        </button>
+                        <button class="share rounded-md h-12 bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-green-500 dark:text-green-700 py-2 px-4 md:px-6 sm-w-full flex items-center justify-center  text-lg mt-4 gap-4"
+                                onclick="handleShare('{% url 'product_details' product.slug %}', '{{ product.name }}')"
+                                type="button">
+                            <i class="fas fa-share-alt"></i>
                         </button>
                     </div>
                 </div>
-                <div class="flex gap-4">
-                    <button class="rounded-md h-12 bg-gradient-to-b from-cone to-ctwo dark:from-ctwo dark:to-cthree text-white py-2 px-4 md:px-8 sm-w-full flex items-center justify-center mt-4 gap-4"
-                            id="add-cart">
-                        <i class="far fa-cart-plus"></i>
-                        Add To Cart
-                    </button>
-                    <button class="rounded-md h-12 bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-red-500 dark:text-red-700 py-2 px-4 md:px-6 sm-w-full flex items-center justify-center  text-lg mt-4 gap-4">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                    <button class="rounded-md h-12 bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-green-500 dark:text-green-700 py-2 px-4 md:px-6 sm-w-full flex items-center justify-center  text-lg mt-4 gap-4"
-                            onclick="handleShare('https:\/\/google.com', 'share')">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                </div>
-            </div>
+            </form>
         </section>
     </div>
     <hr class="h-1 w-[50%] mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-neutral-700">
@@ -96,28 +207,7 @@
             <h2 class="text-3xl font-bold capitalize mb-4">related products</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {% for prod in product.related_products.all %}
-                    <div class="box rounded-lg shadow-lg overflow-hidden">
-                        <div class="imgBx relative overflow-hidden bg-gray-500/25 dark:bg-gray-50/25">
-                            <div class="btns transition absolute flex gap-4 flex-col top-4 right-4 z-10">
-                                <a href="#"
-                                   class="p-2 md:p-3 shadow-md rounded bg-cthree dark:bg-cone text-cone dark:text-cthree"><i class="fas fa-heart"></i></a>
-                                <a href="#"
-                                   data-url="{% url 'product_details' prod.slug %}"
-                                   class="p-2 md:p-3 shadow-md rounded bg-cthree dark:bg-cone text-cone dark:text-cthree"><i class="fas fa-share"></i></a>
-                            </div>
-                            <img src="{{ prod.first_image.0.img.url }}" alt="" />
-                        </div>
-                        <div class="flex flex-col gap-2 bg-cone dark:bg-cfour text-cfour dark:text-cone p-2 md:p-4">
-                            <a href="{% url 'product_details' prod.slug %}"
-                               class="text-xl md:text-xl md:text-2xl hover:underline">{{ prod.name }}
-                                <i class="fas fa-link text-sm"></i></a>
-                            <p class="opacity-80">{{ prod.describtion|truncatewords:5 }}</p>
-                            <h4 class="text-xl font-bold">{{ prod.price|floatformat:2 }} EGP</h4>
-                            <button class="w-full p-2 md:p-4 text-center bg-cthree hover:scale-105 transition text-cone rounded-md">
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
+                    {% include "store/parts/prod-card.html" %}
                 {% endfor %}
             </div>
         </section>
@@ -127,9 +217,9 @@
     <script>
     // document.querySelector("textarea").
     const swiper = new Swiper(".mySwiper", {
-        loop: true,
+        {% comment %} loop: true, {% endcomment %}
         spaceBetween: 10,
-        slidesPerView: 4,
+        slidesPerView: "auto",
         freeMode: true,
         watchSlidesProgress: true,
     });
