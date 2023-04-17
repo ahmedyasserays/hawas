@@ -1,4 +1,4 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -100,3 +100,7 @@ class CartItemsCountView(APIView):
         else:
             count = len(request.session.get("cart", []))
         return Response({"count": count})
+    
+    
+class CartView(TemplateView):
+    template_name = "store/cart.html"

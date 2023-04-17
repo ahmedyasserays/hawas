@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Cart | Hawas</title>
+{% endblock title %}
+{% block content %}
+<div class="container dark:text-white pt-28">
+    <div class="flex text-xl col-span-9" aria-label="Breadcrumb">
+       <ol class="inline-flex items-center space-x-1 md:space-x-3 text-gray-700 dark:text-gray-400 flex-wrap">
+          <li class="inline-flex items-center">
+             <a
+                href="{% url 'home' %}"
+                class="inline-flex items-center font-medium hover:text-ctwo  dark:hover:text-white"
+             >
+                <i class="fas fa-home mr-2"></i>
+                HAWAS
+             </a>
+          </li>
+          <li>
+             <div class="flex items-center">
+                <i class="fas fa-chevron-right"></i>
+                <div
+                   class="ml-1 font-medium md:ml-2"
+                   >Cart</div
+                >
+             </div>
+          </li>
+          <li aria-current="page">
+             <div class="flex items-center">
+                <i class="fas fa-chevron-right"></i>
+                <span
+                   class="ml-1 font-medium md:ml-2"
+                   >Cart items</span
+                >
+             </div>
+          </li>
+       </ol>
+    </div>   
+
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 my-8">
+       <div class="hidden col-span-6 lg:block mb-4 border-gray-200 bg-cone dark:bg-cfour text-cthree dark:text-cone rounded-lg overflow-hidden">
+          <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
+             <li class="grow bg-cthree  dark:bg-cthree text-cone dark:text-cone">
+                <div class="flex gap-4 justify-center items-center py-4 border-r border-cfour dark:border-cthree">
+                   <i class="fad fa-bags-shopping text-xl"></i>
+                   Cart items
+                </div>
+             </li>
+             <li class="grow">
+                <div class="flex gap-4 justify-center items-center py-4 border-r border-cfour dark:border-cthree dark:text-cone">
+                   <i class="fad fa-truck-loading text-xl"></i>
+                   Delivery Details
+                </div>
+             </li>
+             <li class="grow">
+                <div class="flex gap-4 justify-center items-center py-4">
+                   <i class="fad fa-check-square text-xl"></i>
+                   Confirm order
+                </div>
+             </li>
+          </ul>
+       </div>
+       <div class="relative border dark:border-neutral-700 overflow-x-auto rounded-lg col-span-1 md:col-span-4">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-neutral-700 dark:text-gray-400">
+                <tr>
+                   <th scope="col" class="px-6 py-3">
+                      <span class="sr-only">Image</span>
+                   </th>
+                   <th scope="col" class="px-6 py-3">
+                      Product
+                   </th>
+                   <th scope="col" class="px-6 py-3">
+                      Qty
+                   </th>
+                   <th scope="col" class="px-6 py-3">
+                      Price
+                   </th>
+                   <th scope="col" class="px-6 py-3">
+                      Action
+                   </th>
+                </tr>
+             </thead>
+             <tbody>
+                <tr class="bg-white border-b dark:bg-neutral-800 dark:border-neutral-700">
+                   <td class="w-20 h-20 p-4">
+                      <img class="min-width-320" src="./images/hoodie.png" alt="Apple Watch">
+                   </td>
+                   <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                      Apple Watch
+                   </td>
+                   <td class="px-6 py-4">
+                      <div class="flex items-center space-x-3 quantity">
+                         <button
+                            class="decrement inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-neutral-800 dark:text-gray-400 dark:border-neutral-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            type="button">
+                            <span class="sr-only">Quantity button</span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                               xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                  clip-rule="evenodd"></path>
+                            </svg>
+                         </button>
+                         <div>
+                            <input type="number" id="first_product"
+                               class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 block px-2.5 py-1 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-gray-400 dark:text-white"
+                               placeholder="1" required value="1">
+                         </div>
+                         <button
+                            class="increment inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-neutral-800 dark:text-gray-400 dark:border-neutral-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            type="button">
+                            <span class="sr-only">Quantity button</span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                               xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd"
+                                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                  clip-rule="evenodd"></path>
+                            </svg>
+                         </button>
+                      </div>
+                   </td>
+                   <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                      599 EGP
+                   </td>
+                   <td class="px-6 py-4">
+                      <a href="#" class="font-medium text-xl text-red-600 dark:text-red-500 hover:underline">
+                         <i class="fad fa-trash-alt"></i>
+                      </a>
+                   </td>
+                </tr>
+                <tr class="bg-white border-b dark:bg-neutral-800 dark:border-neutral-700">
+                   <td class="w-20 h-20 p-4">
+                      <img class="min-width-320" src="./images/trouser.png" alt="Apple Imac">
+                   </td>
+                   <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                      Imac 27"
+                   </td>
+                   <td class="px-6 py-4">
+                      <div class="flex items-center space-x-3 quantity">
+                         <button
+                            class="decrement inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-neutral-800 dark:text-gray-400 dark:border-neutral-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            type="button">
+                            <span class="sr-only">Quantity button</span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                               xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                  clip-rule="evenodd"></path>
+                            </svg>
+                         </button>
+                         <div>
+                            <input type="number" id="second_product"
+                               class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 block px-2.5 py-1 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-gray-400 dark:text-white"
+                               placeholder="1" required value="1">
+                         </div>
+                         <button
+                            class="increment inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-neutral-800 dark:text-gray-400 dark:border-neutral-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            type="button">
+                            <span class="sr-only">Quantity button</span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                               xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd"
+                                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                  clip-rule="evenodd"></path>
+                            </svg>
+                         </button>
+                      </div>
+                   </td>
+                   <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                      2499 EGP
+                   </td>
+                   <td class="px-6 py-4">
+                      <a href="#" class="font-medium text-xl text-red-600 dark:text-red-500 hover:underline">
+                         <i class="fad fa-trash-alt"></i>
+                      </a>
+                   </td>
+                </tr>
+                <tr class="bg-white border-b dark:bg-neutral-800 dark:border-neutral-700">
+                   <td class="w-20 h-20 p-4">
+                      <img class="min-width-320" src="./images/tshirt.png" alt="Iphone 12">
+                   </td>
+                   <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                      Iphone 12
+                   </td>
+                   <td class="px-6 py-4">
+                      <div class="flex items-center space-x-3 quantity">
+                         <button
+                            class="decrement inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-neutral-800 dark:text-gray-400 dark:border-neutral-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            type="button">
+                            <span class="sr-only">Quantity button</span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                               xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                  clip-rule="evenodd"></path>
+                            </svg>
+                         </button>
+                         <div>
+                            <input type="number" id="third_product"
+                               class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 block px-2.5 py-1 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-gray-400 dark:text-white"
+                               placeholder="1" required value="1">
+                         </div>
+                         <button
+                            class="increment inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-neutral-800 dark:text-gray-400 dark:border-neutral-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            type="button">
+                            <span class="sr-only">Quantity button</span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                               xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd"
+                                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                  clip-rule="evenodd"></path>
+                            </svg>
+                         </button>
+                      </div>
+                   </td>
+                   <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                      999 EGP
+                   </td>
+                   <td class="px-6 py-4">
+                      <a href="#" class="font-medium text-xl text-red-600 dark:text-red-500 hover:underline">
+                         <i class="fad fa-trash-alt"></i>
+                      </a>
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
+       <div class="col-span-1 md:col-span-2">
+          <div class="flex flex-col gap-4">
+             <div class="bg-gray-50 p-4 border rounded-md dark:bg-neutral-800 dark:border-neutral-700">
+                <h4 class="text-2xl mb-4">SUMMARY</h4>
+                <div class="capitalize">
+                   total items:
+                   <span class="text-xl font-bold">2</span>
+                </div>
+                <div class="capitalize">
+                   total price (QR) :
+                   <span class="text-xl font-bold">
+                      824.0
+                      <br>
+                   </span>
+                </div>
+             </div>
+             <a href="/cart/delivery-details/"
+                class="w-full text-center bg-cone text-cfour dark:bg-cfour dark:text-white rounded-md py-4">
+                Next
+                <i class="fas fa-arrow-right"></i>
+                Delivery
+             </a>
+          </div>
+       </div>
+    </div>
+
+ </div>
+{% endblock content %}
+{% block scripts %}
+<script>
+    const incrementIrem = document.querySelectorAll('.increment');
+    const decrementItem = document.querySelectorAll('.decrement');
+    // handle increment
+    incrementIrem.forEach((btn) => {
+       btn.addEventListener('click', () => {
+          const input = btn.closest('.quantity').querySelector('input');
+          if (input.value <= 9 ) {
+             input.value = parseInt(input.value) + 1;
+          }
+       });
+    });
+    // handle decrement
+    decrementItem.forEach((btn) => {
+       btn.addEventListener('click', () => {
+          const input = btn.closest('.quantity').querySelector('input');
+          if (input.value > 1) {
+             input.value = parseInt(input.value) - 1;
+          }
+       });
+    });
+ </script>
+{% endblock scripts %}

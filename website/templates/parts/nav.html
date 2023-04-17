@@ -11,7 +11,7 @@
           <a href="profile.html">
              <i class="fas fa-user"></i>
           </a>
-          <a href="./cart.html" class="relative">
+          <a href="{% url 'cart' %}" class="relative">
              <i class="fad fa-shopping-cart"></i>
              <span
                 class="bg-red-600 absolute top-0 right-0 translate-x-1/2 text-white -translate-y-1/2 text-sm rounded-full w-4 h-4 flex justify-center items-center font-bold cart-counter">{{ cart }}</span>
