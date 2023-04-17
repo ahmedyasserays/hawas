@@ -92,3 +92,11 @@ class AddToCartView(CreateAPIView):
         else:
             serializer.save(user=self.request.user)
 
+
+class CartItemsCountView(APIView):
+    def get(self, request):
+        if request.user.is_authenticated:
+            count = request.user.cartitem_set.count()
+        else:
+            count = len(request.session.get("cart", []))
+        return Response({"count": count})

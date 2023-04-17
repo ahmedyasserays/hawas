@@ -184,6 +184,9 @@ document.querySelectorAll('.cart-form').forEach(form => {
             setTimeout(() => {
                span.classList.remove('scale-100')
             }, 1000);
+            fetch('/api/cart/count/').then(res => res.json()).then(data => {
+               document.querySelector('.cart-counter').textContent = data.count;
+            })
          }
       })
    })

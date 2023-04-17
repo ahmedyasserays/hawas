@@ -57,8 +57,4 @@ function getCookie(name) {
 }
 const csrftoken = getCookie('csrftoken');
 
-
-## TODO: 
-- add view to return the number of items in cart
-- use the new view to update the number of items in cart in the navbar
 ```
