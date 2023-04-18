@@ -71,11 +71,20 @@ class AddToCartView(CreateAPIView):
         if self.request.user.is_authenticated:
             return super().post(self.request)
         else:
-            cart = set(self.request.session.get("cart", []))
+            cart = self.request.session.get("cart", [])
             ser = self.serializer_class(data=self.request.data)
             ser.is_valid(raise_exception=True)
-            
-            self.request.session["cart"] = list(cart)
+            for item in cart:
+                if (
+                    item["product"] == ser.data["product"]
+                    and item["color"] == ser.data["color"]
+                    and item["size"] == ser.data["size"]
+                ):
+                    item["quantity"] += ser.data["quantity"]
+                    break
+            else:
+                cart.append(ser.data)
+            self.request.session["cart"] = cart
             self.request.session.modified = True
         return Response({"success": True})
 
