@@ -100,7 +100,7 @@ class Product(AbstractNamedModel):
     )
 
     order_with_respect_to = "category"
-    
+
     @property
     def price_after_discount(self):
         return self.price - (self.price * self.discount / 100)
@@ -138,10 +138,15 @@ class CartItem(models.Model):
     color = models.ForeignKey("store.Color", on_delete=models.CASCADE)
     size = models.ForeignKey("store.Size", on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    
+    @property
+    def total_price(self):
+        return self.product.price_after_discount * self.quantity
 
     class Meta:
         unique_together = ["user", "product", "color", "size"]
-        
+
+
 class Order(models.Model):
     address = models.ForeignKey("users.BillingAddress", on_delete=models.CASCADE)
     alt_phone = models.CharField(max_length=20, null=True, blank=True)

@@ -1,10 +1,12 @@
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, ListView
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
-from store.models import Product, CartItem
+from store.models import Product, CartItem, Color, Size
 from store.managers import ProductQuerySet
+from django.db.models import Prefetch
+
 
 # Create your views here.
 
@@ -111,5 +113,43 @@ class CartItemsCountView(APIView):
         return Response({"count": count})
     
     
-class CartView(TemplateView):
+class CartView(ListView):
     template_name = "store/cart.html"
+    context_object_name = "items"
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return self.request.user.cartitem_set.all()
+        cart = self.request.session.get("cart", [])
+
+        # Get a list of product IDs, color IDs, and size IDs from the cart
+        product_ids = [item['product'] for item in cart]
+        color_ids = [item['color'] for item in cart]
+        size_ids = [item['size'] for item in cart]
+
+        # Fetch all the required products, colors, and sizes using prefetch_related
+        products = Product.objects.prefetch_related(
+            Prefetch('available_colors', queryset=Color.objects.filter(id__in=color_ids)),
+            Prefetch('available_sizes', queryset=Size.objects.filter(id__in=size_ids))
+        ).filter(id__in=product_ids)
+
+        # Create CartItem instances using the fetched products, colors, and sizes
+        items = []
+        for item in cart:
+            product = next(p for p in products if p.id == item['product'])
+            color = next(c for c in product.available_colors.all() if c.id == item['color'])
+            size = next(s for s in product.available_sizes.all() if s.id == item['size'])
+            items.append(
+                CartItem(
+                    product=product,
+                    color=color,
+                    size=size,
+                    quantity=item["quantity"],
+                )
+            )
+        return items
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["total_price"] = sum(item.total_price for item in ctx["items"])
+        return ctx
