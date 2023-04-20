@@ -1,6 +1,7 @@
 from django.views.generic import DetailView, TemplateView, ListView
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import serializers
 from store.models import Product, CartItem, Color, Size
@@ -88,7 +89,7 @@ class AddToCartView(CreateAPIView):
                 cart.append(ser.data)
             self.request.session["cart"] = cart
             self.request.session.modified = True
-        return Response({"success": True})
+        return Response({"success": True, "count": len(cart)})
 
     def perform_create(self, serializer):
         cart_item = CartItem.objects.filter(
@@ -153,3 +154,27 @@ class CartView(ListView):
         ctx = super().get_context_data(**kwargs)
         ctx["total_price"] = sum(item.total_price for item in ctx["items"])
         return ctx
+
+@api_view(["POST"])
+def decrement_cart_quantity(request, id):
+    if request.user.is_authenticated:
+        cart_item = CartItem.objects.get(id=id, user=request.user)
+        cart_item.quantity -= 1
+        if cart_item.quantity == 0:
+            cart_item.delete()
+        else:
+            cart_item.save()
+        return Response({"success": True})
+    else:
+        cart:list = request.session.get("cart", [])
+        if id > len(cart):
+            return Response({"success": False})
+        item = cart[id]
+        if item["quantity"] == 1:
+            del cart[id]
+        else:
+            cart[id]["quantity"] -= 1
+        
+        request.session["cart"] = cart
+        return Response({"success": True})
+            
