@@ -1,7 +1,5 @@
-from django.views.generic import TemplateView
-
+from django.views.generic import TemplateView, ListView
 from store.models import Product
-
 from .models import HomePageHeroSection, NewArrivals, PopularProducts, HomePageTile
 
 
@@ -23,7 +21,5 @@ class HomeView(TemplateView):
             .with_wishlist(self.request)
             .order_by("-created")[:8]
         )
-        ctx["popular_products"] = (
-            Product.objects.popular().with_first_image()[:8]
-        )
+        ctx["popular_products"] = Product.objects.popular().with_first_image()[:8]
         return ctx

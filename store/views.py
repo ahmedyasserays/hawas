@@ -3,8 +3,12 @@ from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
+from store.filters import ProductFilter
 from store.models import Product, CartItem
 from store.managers import ProductQuerySet
+from django_filters.views import FilterView
+
+from website.models import AvailableProducts
 
 # Create your views here.
 
@@ -109,3 +113,21 @@ class CartItemsCountView(APIView):
         else:
             count = len(request.session.get("cart", []))
         return Response({"count": count})
+
+
+class ShopView(FilterView):
+    template_name = "store/products.html"
+    filterset_class = ProductFilter
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["hero_shop"] = AvailableProducts.get_solo()
+        ctx["available_products"] = (
+            Product.objects.available()
+            .with_first_image()
+            .with_first_color()
+            .with_first_size()
+            .with_wishlist(self.request)
+            .order_by("-created")[:8]
+        )
+        return ctx

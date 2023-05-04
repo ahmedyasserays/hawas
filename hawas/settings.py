@@ -37,20 +37,20 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "solo",
     "colorfield",
+    "django_filters",
     "django_cleanup.apps.CleanupConfig",
 ]
 
 DEFAULT_APPS = [
-        "django.contrib.admin",
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
 ]
 LOCAL_APPS = [
-        "users",
+    "users",
     "store",
     "website",
 ]
@@ -87,7 +87,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "store.context_processors.nav_bar_ctx"
+                "store.context_processors.nav_bar_ctx",
             ],
         },
     },

@@ -29,3 +29,9 @@ class NewArrivals(SingletonModel):
 class PopularProducts(SingletonModel):
     title = models.CharField(max_length=100, default="Popular Products")
     description = models.TextField(default=LOREM)
+
+
+class AvailableProducts(SingletonModel):
+    title = models.CharField(max_length=100, default="Available Products")
+    description = models.TextField(default=LOREM)
+    image = models.ImageField(upload_to="shop_page", default="defaults/shop-bg.jpg")
