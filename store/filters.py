@@ -1,6 +1,6 @@
 import django_filters as filters
 from store.models import Product
-
+from django.db.models import Q
 
 class ProductFilter(filters.FilterSet):
     prod_name = filters.CharFilter(method="prod_name_filter")
@@ -8,10 +8,10 @@ class ProductFilter(filters.FilterSet):
     class Meta:
         model = Product
         fields = {
-            "price": ["exact", "gte", "lte"],
+            "price": ["gte", "lte"],
             "category": ["exact"],
         }
 
     def prod_name_filter(self, qureyset, name, value):
-        print(name, value)
-        return qureyset
+        return qureyset.filter(Q(name__icontains=value)| Q(name_ar__icontains=value))
+    

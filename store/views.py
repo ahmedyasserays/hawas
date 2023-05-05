@@ -1,14 +1,15 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.views.generic import DetailView
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
 from store.filters import ProductFilter
-from store.models import Product, CartItem
+from store.models import Product, CartItem, Category
 from store.managers import ProductQuerySet
 from django_filters.views import FilterView
-
-from website.models import AvailableProducts
+from website.models import ShopPage
 
 # Create your views here.
 
@@ -118,16 +119,20 @@ class CartItemsCountView(APIView):
 class ShopView(FilterView):
     template_name = "store/products.html"
     filterset_class = ProductFilter
+    context_object_name = "available_products"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["hero_shop"] = AvailableProducts.get_solo()
-        ctx["available_products"] = (
+        ctx["hero_shop"] = ShopPage.get_solo()
+        ctx['category'] = Category.objects.all()
+        return ctx
+
+    def get_queryset(self):
+        query = (
             Product.objects.available()
             .with_first_image()
             .with_first_color()
             .with_first_size()
             .with_wishlist(self.request)
-            .order_by("-created")[:8]
         )
-        return ctx
+        return query

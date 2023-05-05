@@ -1,6 +1,11 @@
 from django.views.generic import TemplateView, ListView
 from store.models import Product
-from .models import HomePageHeroSection, NewArrivals, PopularProducts, HomePageTile
+from .models import (
+    HomePageHeroSection,
+    NewArrivalsSection,
+    PopularProductsSection,
+    HomePageTile,
+)
 
 
 # Create your views here.
@@ -11,8 +16,8 @@ class HomeView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         ctx["hero_section"] = HomePageHeroSection.get_solo()
         ctx["tiles"] = HomePageTile.objects.all()
-        ctx["new_arrivals_section"] = NewArrivals.get_solo()
-        ctx["popular_products_section"] = PopularProducts.get_solo()
+        ctx["new_arrivals_section"] = NewArrivalsSection.get_solo()
+        ctx["popular_products_section"] = PopularProductsSection.get_solo()
         ctx["new_arrivals"] = (
             Product.objects.available()
             .with_first_image()

@@ -21,17 +21,17 @@ class HomePageTile(models.Model):
     image = models.ImageField(upload_to="tiles")
 
 
-class NewArrivals(SingletonModel):
+class NewArrivalsSection(SingletonModel):
     title = models.CharField(max_length=100, default="New Arrivals")
     description = models.TextField(default=LOREM)
 
 
-class PopularProducts(SingletonModel):
+class PopularProductsSection(SingletonModel):
     title = models.CharField(max_length=100, default="Popular Products")
     description = models.TextField(default=LOREM)
 
 
-class AvailableProducts(SingletonModel):
+class ShopPage(SingletonModel):
     title = models.CharField(max_length=100, default="Available Products")
     description = models.TextField(default=LOREM)
     image = models.ImageField(upload_to="shop_page", default="defaults/shop-bg.jpg")
