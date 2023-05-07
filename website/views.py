@@ -1,10 +1,14 @@
-from django.views.generic import TemplateView, ListView
+from typing import Any, Dict
+from django.views.generic import TemplateView
 from store.models import Product
 from .models import (
     HomePageHeroSection,
     NewArrivalsSection,
     PopularProductsSection,
     HomePageTile,
+    AboutUsHero,
+    AboutUsTile,
+    Founder,
 )
 
 
@@ -27,4 +31,14 @@ class HomeView(TemplateView):
             .order_by("-created")[:8]
         )
         ctx["popular_products"] = Product.objects.popular().with_first_image()[:8]
+        return ctx
+
+class AboutUsView(TemplateView):
+    template_name = 'about-us.html'
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['hero_section'] = AboutUsHero.get_solo()
+        ctx['tile'] = AboutUsTile.get_solo()
+        ctx['founders'] = Founder.objects.all()
         return ctx
