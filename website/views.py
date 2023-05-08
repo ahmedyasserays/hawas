@@ -1,7 +1,10 @@
-from typing import Any, Dict
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 from store.models import Product
+from website.forms import ContactForm
+from django.core.mail import send_mail
+from django.urls import reverse_lazy
 from .models import (
+    ContactMessage,
     HomePageHeroSection,
     NewArrivalsSection,
     PopularProductsSection,
@@ -9,6 +12,9 @@ from .models import (
     AboutUsHero,
     AboutUsTile,
     Founder,
+    MailTile,
+    CallTile,
+    ContactHero,
 )
 
 
@@ -33,12 +39,42 @@ class HomeView(TemplateView):
         ctx["popular_products"] = Product.objects.popular().with_first_image()[:8]
         return ctx
 
+
 class AboutUsView(TemplateView):
-    template_name = 'about-us.html'
-    
+    template_name = "about-us.html"
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['hero_section'] = AboutUsHero.get_solo()
-        ctx['tile'] = AboutUsTile.get_solo()
-        ctx['founders'] = Founder.objects.all()
+        ctx["hero_section"] = AboutUsHero.get_solo()
+        ctx["tile"] = AboutUsTile.get_solo()
+        ctx["founders"] = Founder.objects.all()
         return ctx
+
+
+class ContactUsView(TemplateView):
+    template_name = "contact-us.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["hero_section"] = ContactHero.get_solo()
+        ctx["mail"] = MailTile.get_solo()
+        ctx["call"] = CallTile.get_solo()
+        return ctx
+
+
+class ContactMessageView(CreateView):
+    template_name = "contact-us.html"
+    model = ContactMessage
+    form_class = ContactForm
+    success_url = reverse_lazy("contact")
+
+    def form_valid(self, form):
+        res = super().form_valid(form)
+        send_mail(
+            subject=f"New message from {form.cleaned_data['name']} ({form.cleaned_data['email']})",
+            message=form.cleaned_data["message"],
+            from_email="nitox56@gmail.com",
+            recipient_list=["hawas.store.1@gmail.com"],
+            fail_silently=False,
+        )
+        return res
