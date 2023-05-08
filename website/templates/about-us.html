@@ -1,371 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Hawas</title>
-      <link href="/dist/output.css" rel="stylesheet" />
-      <!-- <link rel="stylesheet" href="./input.css"> -->
-      <link
-         rel="stylesheet"
-         href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-         crossorigin="anonymous"
-      />
-      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-      <style>
-         .white-lg {
-            background: -webkit-linear-gradient(#e0c097, #b85c38);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-         }
-      </style>
-   </head>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>About | Hawas</title>
+{% endblock title %}
+{% block extrahead %}
+<style>
+   .white-lg {
+      background: -webkit-linear-gradient(#e0c097, #b85c38);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+   }
+</style>
+{% endblock extrahead %}
+{% block content %}
+<header class="aspect-video max-h-[50vh] w-full bg-cover bg-center"
+   style="background-image:url({{hero_section.image.url}})">
+   <div class="h-full w-full bg-white/75 dark:bg-black/75">
+      <div class="container h-full flex flex-col justify-center dark:text-white">
+         <h1 class="text-3xl md:text-5xl font-bold mb-4">{{hero_section.title}}</h1>
+         <p class="text-xl font-light">
+            {{hero_section.description}}
+         </p>
+      </div>
+   </div>
+</header>
 
-   <body>
-      <div class="loading fixed top-0 left-0 w-full h-screen backdrop-blur-lg z-30 grid place-content-center">
-         <div role="status">
-            <svg aria-hidden="true"
-               class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-cthree dark:fill-cone"
-               viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor" />
-               <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill" />
-            </svg>
-            <span class="sr-only">Loading...</span>
+<section class="py-12">
+   <div class="container">
+      <div class="grid max-w-screen-xl px-4 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12">
+         <div class="mr-auto place-self-center lg:col-span-7">
+            <h1
+               class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
+               {{tile.title}}
+            </h1>
+            <p
+               class="max-w-2xl text-justify mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+               {{tile.description}}
+            </p>
+            {% comment %} add url contact-us {% endcomment %}
+            <a href="./contact-us.html" type="button"
+               class="text-white text-xl w-fit shadow-lg dark:from-ctwo from-cone dark:via-cthree via-ctwo dark:to-cfour to-cthree bg-gradient-to-br focus:ring-4 focus:outline-none font-medium rounded-lg transition hover:scale-105 px-5 py-2.5 text-center mr-2 mb-2">
+               Contact Us
+            </a>
+         </div>
+         <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <img src="{{tile.image.url}}" alt="mockup" />
          </div>
       </div>
-      <nav class="px-2 sm:px-4 fixed w-full z-20 top-0 left-0 transition-all duration-500">
-         <div class="container flex flex-wrap items-center justify-between mx-auto">
-            <a href="" class="flex items-center">
-               <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
-            </a>
-            <div class="flex gap-4 text-xl items-center md:order-2 text-cthree dark:text-pri">
-               <a href="#">
-                  <i class="fad fa-shopping-cart"></i>
-               </a>
-               <a href="#">
-                  <i class="fas fa-heart"></i>
-               </a>
-               <button data-collapse-toggle="navbar-sticky" type="button"
-                  class="toggle inline-flex items-center p-2 text-sm text-cfour outline-none rounded-lg md:hidden hover:bg-ctwo/25 focus:outline-none dark:text-cone"
-                  aria-controls="navbar-sticky" aria-expanded="false">
-                  <span class="sr-only">Open main menu</span>
-                  <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                     xmlns="http://www.w3.org/2000/svg">
-                     <path fill-rule="evenodd"
-                        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                        clip-rule="evenodd"></path>
-                  </svg>
-               </button>
-            </div>
-            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-               <ul
-                  class="flex flex-col bg-ctwo/50 dark:bg-cthree/50 p-4 mt-4 border border-ctwo/25 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:font-medium md:border-0 md:bg-transparent">
-                  <li>
-                     <a href="#"
-                        class="block py-2 pl-3 pr-4 text-cone bg-ctwo rounded md:bg-transparent md:text-ctwo md:p-0 dark:text-white"
-                        aria-current="page">Home</a>
-                  </li>
-                  <li>
-                     <a href="#"
-                        class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Shop</a>
-                  </li>
-                  <li>
-                     <a href="#"
-                        class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-                  </li>
-                  <li>
-                     <a href="#"
-                        class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-                  </li>
-               </ul>
+   </div>
+</section>
+<section class="py-12">
+   <div class="container dark:text-white text-center">
+      <h2 class="text-5xl font-bold mb-8">Founders</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 max-w-screen-lg mx-auto gap-4">
+         {% for founder in founders %}
+         <div class="flex">
+            <div
+               class="w-full max-w-sm mx-auto bg-gray-50 border border-gray-200 rounded-lg shadow-lg dark:bg-neutral-800 dark:border-neutral-700 pt-8">
+               <div class="flex flex-col items-center pb-10">
+                  <img class="w-34 h-34 mb-3 rounded-full shadow-lg"
+                     src="https://static-00.iconduck.com/assets.00/male-avatar-illustration-256x256-05bnteok.png"
+                     alt="Bonnie image" />
+                  <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                     {{founder.name}}
+                  </h5>
+                  <span class="text-sm text-gray-500 dark:text-gray-400 px-4">{{founder.description}}</span>
+                  <div class="flex mt-4 space-x-3 md:mt-6">
+                     <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+                        <a href="{{founder.face_icon}}" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                           <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="{{founder.insta_icon}}"
+                           class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                           <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="{{founder.twit_icon}}" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                           <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
-      </nav>
-      <main>
-         <!-- start hero -->
-         <header
-            class="aspect-video max-h-[50vh] w-full bg-cover bg-center"
-            style="background-image: url('./images/contact-bg.jpg')"
-         >
-            <div class="h-full w-full bg-white/75 dark:bg-black/75">
-               <div
-                  class="container h-full flex flex-col justify-center dark:text-white"
-               >
-                  <h1 class="text-3xl md:text-5xl font-bold mb-4">About Us</h1>
-                  <p class="text-xl font-light">
-                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                     Officiis, vel.
-                  </p>
-               </div>
-            </div>
-         </header>
-         <!-- end hero -->
-         <section class="py-12">
-            <div class="container">
-               <div
-                  class="grid max-w-screen-xl px-4 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12"
-               >
-                  <div class="mr-auto place-self-center lg:col-span-7">
-                     <h1
-                        class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white"
-                     >
-                        Payments tool for software companies
-                     </h1>
-                     <p
-                        class="max-w-2xl text-justify mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400"
-                     >
-                        From checkout to global sales tax compliance, companies
-                        around the world use Flowbite to simplify their payment
-                        stack. <br />
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Aspernatur sint est iusto quos quo sunt?
-                     </p>
-                     <a
-                        href="./contact-us.html"
-                        type="button"
-                        class="text-white text-xl w-fit shadow-lg dark:from-ctwo from-cone dark:via-cthree via-ctwo dark:to-cfour to-cthree bg-gradient-to-br focus:ring-4 focus:outline-none font-medium rounded-lg transition hover:scale-105 px-5 py-2.5 text-center mr-2 mb-2"
-                     >
-                        Contact Us
-                     </a>
-                  </div>
-                  <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                     <img src="./images/hawas.jpg" alt="mockup" />
-                  </div>
-               </div>
-            </div>
-         </section>
-         <section class="py-12">
-            <div class="container dark:text-white text-center">
-               <h2 class="text-5xl font-bold mb-8">Founders</h2>
-               <div
-                  class="grid grid-cols-1 md:grid-cols-2 max-w-screen-lg mx-auto gap-4"
-               >
-                  <div class="flex">
-                     <div
-                        class="w-full max-w-sm mx-auto bg-gray-50 border border-gray-200 rounded-lg shadow-lg dark:bg-neutral-800 dark:border-neutral-700 pt-8"
-                     >
-                        <div class="flex flex-col items-center pb-10">
-                           <img
-                              class="w-34 h-34 mb-3 rounded-full shadow-lg"
-                              src="https://static-00.iconduck.com/assets.00/male-avatar-illustration-256x256-05bnteok.png"
-                              alt="Bonnie image"
-                           />
-                           <h5
-                              class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
-                           >
-                              Hazem
-                           </h5>
-                           <span
-                              class="text-sm text-gray-500 dark:text-gray-400 px-4"
-                              >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit, possimus!</span
-                           >
-                           <div class="flex mt-4 space-x-3 md:mt-6">
-                              <div
-                                 class="flex mt-4 space-x-6 sm:justify-center sm:mt-0"
-                              >
-                                 <a
-                                    href="#"
-                                    class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                                 >
-                                    <i class="fab fa-facebook text-xl"></i>
-                                 </a>
-                                 <a
-                                    href="#"
-                                    class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                                 >
-                                    <i class="fab fa-instagram text-xl"></i>
-                                 </a>
-                                 <a
-                                    href="#"
-                                    class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                                 >
-                                    <i class="fab fa-twitter text-xl"></i>
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="flex">
-                     <div
-                        class="w-full max-w-sm mx-auto bg-gray-50 border border-gray-200 rounded-lg shadow-lg dark:bg-neutral-800 dark:border-neutral-700 pt-8"
-                     >
-                        <div class="flex flex-col items-center pb-10">
-                           <img
-                              class="w-34 h-34 mb-3 rounded-full shadow-lg"
-                              src="https://static-00.iconduck.com/assets.00/male-avatar-illustration-256x256-05bnteok.png"
-                              alt="Bonnie image"
-                           />
-                           <h5
-                              class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
-                           >
-                              Ahmed
-                           </h5>
-                           <span
-                              class="text-sm text-gray-500 dark:text-gray-400 px-4"
-                              >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit, possimus!</span
-                           >
-                           <div class="flex mt-4 space-x-3 md:mt-6">
-                              <div
-                                 class="flex mt-4 space-x-6 sm:justify-center sm:mt-0"
-                              >
-                                 <a
-                                    href="#"
-                                    class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                                 >
-                                    <i class="fab fa-facebook text-xl"></i>
-                                 </a>
-                                 <a
-                                    href="#"
-                                    class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                                 >
-                                    <i class="fab fa-instagram text-xl"></i>
-                                 </a>
-                                 <a
-                                    href="#"
-                                    class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                                 >
-                                    <i class="fab fa-twitter text-xl"></i>
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-         <!-- start footer -->
-         <footer class="p-4 bg-cone sm:p-6 dark:bg-cfour">
-            <div class="container">
-               <div class="md:flex md:justify-between">
-                  <div class="mb-6 md:mb-0">
-                     <a href="#" class="flex items-center">
-                        <img
-                           src="https://flowbite.com/docs/images/logo.svg"
-                           class="h-8 mr-3"
-                           alt="FlowBite Logo"
-                        />
-                        <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> -->
-                     </a>
-                  </div>
-                  <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-                     <div>
-                        <h2
-                           class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white"
-                        >
-                           Resources
-                        </h2>
-                        <ul class="text-gray-600 dark:text-gray-400">
-                           <li class="mb-4">
-                              <a href="#" class="hover:underline">Flowbite</a>
-                           </li>
-                           <li>
-                              <a href="#" class="hover:underline"
-                                 >Tailwind CSS</a
-                              >
-                           </li>
-                        </ul>
-                     </div>
-                     <div>
-                        <h2
-                           class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white"
-                        >
-                           Follow us
-                        </h2>
-                        <ul class="text-gray-600 dark:text-gray-400">
-                           <li class="mb-4">
-                              <a href="#" class="hover:underline">Github</a>
-                           </li>
-                           <li>
-                              <a href="#" class="hover:underline">Discord</a>
-                           </li>
-                        </ul>
-                     </div>
-                     <div>
-                        <h2
-                           class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white"
-                        >
-                           Legal
-                        </h2>
-                        <ul class="text-gray-600 dark:text-gray-400">
-                           <li class="mb-4">
-                              <a href="#" class="hover:underline"
-                                 >Privacy Policy</a
-                              >
-                           </li>
-                           <li>
-                              <a href="#" class="hover:underline"
-                                 >Terms &amp; Conditions</a
-                              >
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-               <hr
-                  class="my-6 border-cfour/50 sm:mx-auto dark:border-cone/50 lg:my-8"
-               />
-               <div class="sm:flex sm:items-center sm:justify-between">
-                  <span
-                     class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
-                     >© 2023
-                     <a href="https://hawas.com/" class="hover:underline"
-                        >HAWAS™</a
-                     >. All Rights Reserved.
-                  </span>
-                  <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
-                     <a
-                        href="#"
-                        class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                     >
-                        <i class="fab fa-facebook"></i>
-                     </a>
-                     <a
-                        href="#"
-                        class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                     >
-                        <i class="fab fa-instagram"></i>
-                     </a>
-                     <a
-                        href="#"
-                        class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                     >
-                        <i class="fab fa-twitter"></i>
-                     </a>
-                     <a
-                        href="#"
-                        class="fill-gray-500 hover:fill-gray-900 dark:hover:fill-white"
-                     >
-                        <svg
-                           class="w-4"
-                           xmlns="http://www.w3.org/2000/svg"
-                           viewBox="0 0 448 512"
-                        >
-                           <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
-                           <path
-                              d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"
-                           />
-                        </svg>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </footer>
-         <!-- end footer -->
-      </main>
-
-      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-      <script>
-         AOS.init();
-         // document.querySelector("textarea").
-      </script>
-      <script src="./script.js"></script>
-   </body>
-</html>
+         {% endfor %}
+</section>
+{% endblock content %}

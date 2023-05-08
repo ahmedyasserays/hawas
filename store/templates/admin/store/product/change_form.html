@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        #id_available_colors, #id_available_sizes {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+{% endblock %}

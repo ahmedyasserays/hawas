@@ -1,68 +1,92 @@
 {% extends "base.html" %}
 {% block content %}
-    {% include "parts/header.html" %}
-    <!-- start new arrival -->
-    <section class="py-8 md:py-12">
-        <div class="px-4 text-center dark:text-pri">
-            <h2 class="font-bold text-3xl">{{ new_arrivals_section.title }}</h2>
-            <p class="font-light max-w-screen-md mb-8 mx-auto">{{ new_arrivals_section.description }}</p>
-        </div>
-        <div class="container hidden md:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            <!-- start product -->
-            {% for prod in new_arrivals %}
-                {% include "store/parts/prod-card.html" %}
-            {% endfor %}
-            <!-- end prodcut -->
-        </div>
-        <div class="container md:hidden">
-            <!-- Slider main container -->
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    {% for prod in new_arrivals %}
-                        {% include "store/parts/prod-card-slider.html" %}
-                    {% endfor %}
-                </div>
-                <div class="swiper-button-next na-next">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="swiper-button-prev na-prev">
-                    <i class="fas fa-chevron-left"></i>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </section>
-    <!-- End of new arrival -->
-    <!-- start Popular -->
-    <section class="py-8 md:py-12">
-        <div class="px-4 text-center dark:text-pri">
-            <h2 class="font-bold text-3xl capitalize">{{ popular_products_section.title }}</h2>
-            <p class="font-light max-w-screen-md mb-8 mx-auto">{{ popular_products_section.description }}</p>
-        </div>
-        <div class="container hidden md:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            <!-- start product -->
-            {% for prod in popular_products %}
-                {% include "store/parts/prod-card.html" %}
-            {% endfor %}
-            <!-- end prodcut -->
-        </div>
-        <div class="container md:hidden">
-            <!-- Slider main container -->
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    {% for prod in popular_products %}
-                        {% include "store/parts/prod-card-slider.html" %}
-                    {% endfor %}
-                </div>
-                <div class="swiper-button-next na-next">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                <div class="swiper-button-prev na-prev">
-                    <i class="fas fa-chevron-left"></i>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </section>
-    <!-- End of Popular -->
+{% include "parts/header.html" %}
+<!-- start new arrival -->
+<section class="py-8 md:py-12">
+    <div class="px-4 text-center dark:text-pri">
+        <h2 class="font-bold text-3xl">{{ new_arrivals_section.title }}</h2>
+        <p class="font-light max-w-screen-md mb-8 mx-auto">{{ new_arrivals_section.description }}</p>
+    </div>
+
+    {% with new_arrivals as prods %}
+    {% include "store/parts/prods-section.html" %}
+    {% endwith %}
+
+</section>
+<!-- End of new arrival -->
+<!-- start Popular -->
+<section class="py-8 md:py-12">
+    <div class="px-4 text-center dark:text-pri">
+        <h2 class="font-bold text-3xl capitalize">{{ popular_products_section.title }}</h2>
+        <p class="font-light max-w-screen-md mb-8 mx-auto">{{ popular_products_section.description }}</p>
+    </div>
+
+    {% with popular_products as prods %}
+    {% include "store/parts/prods-section.html" %}
+    {% endwith %}
+
+</section>
+<!-- End of Popular -->
 {% endblock content %}
+
+{% block scripts %}
+<script type="module">
+    const swiper = new Swiper(".mySwiper", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    loop: true,
+    slidesPerView: 1.5,
+    spaceBetween: 30,
+    coverflowEffect: {
+        rotate: 0,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+    },
+    pagination: {
+        el: ".swiper-pagination",
+    },
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+        768: {
+            slidesPerView: 3,
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 0,
+                modifier: 1,
+                slideShadows: true,
+            },
+        },
+        1024: {
+            slidesPerView: 5,
+
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 0,
+                modifier: 1,
+                slideShadows: true,
+            },
+        },
+    },
+    });
+    const header = document.querySelector("header");
+    const nav = document.querySelector("nav");
+
+    //calc header height
+    function headerHeight() {
+    let navHeight = nav.getBoundingClientRect().height;
+    header.style.height = `calc(100vh - ${navHeight}px)`;
+    header.style.marginTop = `${navHeight}px`;
+    }
+
+    window.addEventListener("resize", headerHeight);
+    window.addEventListener("load", headerHeight);
+</script>
+{% endblock scripts %}

@@ -32,21 +32,30 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list)
 
 # Application definition
 
-INSTALLED_APPS = [
+THIRD_PARTY_APPS = [
+    "ordered_model",
+    "rest_framework",
+    "solo",
+    "colorfield",
+    "django_filters",
+    "django_cleanup.apps.CleanupConfig",
+]
+
+DEFAULT_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "ordered_model",
-    "rest_framework",
-    "solo",
-    "django_cleanup.apps.CleanupConfig",
+]
+LOCAL_APPS = [
     "users",
     "store",
     "website",
 ]
+
+INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -78,6 +87,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "store.context_processors.nav_bar_ctx",
             ],
         },
     },

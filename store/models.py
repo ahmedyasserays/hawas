@@ -1,10 +1,14 @@
 from autoslug.fields import AutoSlugField
+from colorfield.fields import ColorField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Sum
+from django.urls import reverse
 from ordered_model.models import OrderedModel
 
-from .managers import ProductManager
+from users.models import User
+
+from .managers import ProductQuerySet
 
 
 class AbstractNamedModel(OrderedModel):
@@ -34,8 +38,28 @@ class Category(AbstractNamedModel):
         return self.name
 
 
+class Color(AbstractNamedModel):
+    code = ColorField()
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name_plural = "colors"
+
+
+class Size(AbstractNamedModel):
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name_plural = "sizes"
+
+
 class Product(AbstractNamedModel):
-    objects: ProductManager = ProductManager.as_manager()
+    objects: ProductQuerySet = ProductQuerySet.as_manager()
 
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="products"
@@ -45,6 +69,12 @@ class Product(AbstractNamedModel):
     describtion_ar = models.TextField(max_length=1000)
 
     available = models.BooleanField(default=True)
+
+    available_colors = models.ManyToManyField(
+        Color, related_name="products", blank=True
+    )
+    available_sizes = models.ManyToManyField(Size, related_name="products", blank=True)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -55,17 +85,6 @@ class Product(AbstractNamedModel):
     visits = models.PositiveIntegerField(default=0)
     is_popular = models.BooleanField(default=False)
 
-    order_with_respect_to = "category"
-
-    def __str__(self):
-        return self.name
-
-
-class Option(AbstractNamedModel):
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="options"
-    )
-    quantity = models.PositiveIntegerField()
     price = models.FloatField(
         validators=[
             MinValueValidator(1, "Can't set price less than 1"),
@@ -80,14 +99,17 @@ class Option(AbstractNamedModel):
         default=0,
     )
 
-    order_with_respect_to = "product"
-
-    def __str__(self) -> str:
-        return f"{self.product.name} | {self.name}"
-
+    order_with_respect_to = "category"
+    
     @property
     def price_after_discount(self):
-        return self.price - (self.price * (self.discount / 100))
+        return self.price - (self.price * self.discount / 100)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("product_details", kwargs={"slug": self.slug})
 
 
 class ProductImage(OrderedModel):
@@ -110,6 +132,16 @@ class ProductReview(models.Model):
         unique_together = ["user", "product"]
 
 
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    color = models.ForeignKey("store.Color", on_delete=models.CASCADE)
+    size = models.ForeignKey("store.Size", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ["user", "product", "color", "size"]
+        
 class Order(models.Model):
     address = models.ForeignKey("users.BillingAddress", on_delete=models.CASCADE)
     alt_phone = models.CharField(max_length=20, null=True, blank=True)
@@ -163,9 +195,11 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         Order, related_name="order_items", on_delete=models.CASCADE
     )
-    option = models.ForeignKey(
-        Option, related_name="order_items", on_delete=models.CASCADE
+    product = models.ForeignKey(
+        Product, related_name="order_items", on_delete=models.CASCADE
     )
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
 

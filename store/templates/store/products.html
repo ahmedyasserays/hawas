@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Shop | Hawas</title>
+{% endblock title %}
+{% block extrahead %}
+<style>
+	.white-lg {
+		background: -webkit-linear-gradient(#e0c097, #b85c38);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+</style>
+{% endblock extrahead %}
+
+{% block content %}
+<header class="aspect-video max-h-[50vh] w-full bg-cover bg-center"
+	style="background-image:url({{hero_shop.image.url}})">
+	<div class="h-full w-full bg-white/75 dark:bg-black/75">
+		<div class="container h-full flex flex-col justify-center dark:text-white">
+			<h1 class="text-3xl md:text-5xl font-bold mb-4">{{hero_shop.title}}</h1>
+			<p class="text-xl font-light">{{hero_shop.description}}</p>
+		</div>
+	</div>
+</header>
+
+<section class="py-12">
+	<div class="container dark:text-white">
+		<div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+			<aside class="">
+				<div class="flex justify-between items-center mb-4 border-b lg:border-0 border-black dark:border-white">
+					<h2 class="text-2xl">Filter</h2>
+					<button class="open-filter block lg:hidden">
+						<i class="fas fa-chevron-down transition"></i>
+					</button>
+				</div>
+				<form class="flex flex-col gap-4">
+					<div>
+						<label for="simple-search" class="sr-only">Search</label>
+						<div class="relative w-full">
+							<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<i class="fas fa-search text-gray-500 dark:text-gray-400"></i>
+							</div>
+							<input type="text" id="simple-search" name="prod_name" value="{{request.GET.prod_name}}"
+								class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full pl-10 p-2.5 dark:bg-neutral-800 dark:border-neutral-700 dark:placeholder-gray-400 dark:text-white"
+								placeholder="Search" />
+						</div>
+					</div>
+					<div class="flex gap-4 my-4">
+						<div class="flex w-1/2">
+							<span
+								class="inline-flex items-center px-2 text-sm text-gray-900 dark:text-gray-300 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 dark:bg-neutral-700 dark:border-neutral-600">Min</span><input
+								type="number" id="lt" name="price__gte"
+								class="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 dark:text-gray-300 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 dark:bg-neutral-800 dark:border-neutral-700"
+								placeholder="10" min="0" value="{{request.GET.price__gte}}" />
+						</div>
+						<div class="flex w-1/2">
+							<span
+								class="inline-flex items-center px-2 text-sm text-gray-900 dark:text-gray-300 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 dark:bg-neutral-700 dark:border-neutral-600">Max</span><input
+								type="number" id="gt" name="price__lte"
+								class="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 dark:text-gray-300 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 dark:bg-neutral-800 dark:border-neutral-700"
+								placeholder="100" min="0" value="{{request.GET.price__lte}}" />
+						</div>
+					</div>
+					<div>
+						<select id="categories" name="category" 
+							class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 dark:bg-neutral-800 dark:border-neutral-700 dark:placeholder-gray-400 dark:text-white">
+							<option>Categories</option>
+							{% for cat in category %}
+							{% if request.GET.category == cat.id|stringformat:'s' %}
+							<option selected value="{{cat.id}}">{{cat.name}}</option>
+							{% else %}
+							<option value="{{cat.id}}">{{cat.name}}</option>
+							{% endif %}
+							{% endfor %}
+						</select>
+					</div>
+					<button type="submit"
+						class="text-white shadow-lg w-full dark:from-ctwo from-cone dark:via-cthree via-ctwo dark:to-cfour to-cthree bg-gradient-to-br focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+						Filter
+					</button>
+					<button type="reset"
+						class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group dark:from-ctwo from-cone dark:via-cthree via-ctwo dark:to-cfour to-cthree bg-gradient-to-br hover:text-white dark:text-white focus:outline-none">
+						<span
+							class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-neutral-900 rounded-md group-hover:bg-opacity-0 w-full">
+							Reset
+						</span>
+					</button>
+				</form>
+			</aside>
+			{% for prod in available_products %}
+			{% include "store/parts/prod-card.html" %}
+			{% endfor %}
+		</div>
+	</div>
+	</div>
+	</div>
+</section>
+{% endblock content %}
+{% block scripts %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+	AOS.init();
+	const openFilterBtn = document.querySelector("aside .open-filter");
+	openFilterBtn.addEventListener("click", () => {
+		document.querySelector("aside").classList.toggle("open");
+		openFilterBtn.querySelector("i").classList.toggle("rotate-180");
+	});
+</script>
+<script src="{% static './script.js' %}"></script>
+{% endblock scripts %}

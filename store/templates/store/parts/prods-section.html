@@ -1,0 +1,26 @@
+<div class="container hidden md:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+    <!-- start product -->
+    {% for prod in prods %}
+        {% include "store/parts/prod-card.html" %}
+    {% endfor %}
+    <!-- end prodcut -->
+</div>
+<div class="container md:hidden">
+    <!-- Slider main container -->
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            {% for prod in prods %}
+                <div class="swiper-slide">
+                    {% include "store/parts/prod-card.html" %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-button-next na-next">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="swiper-button-prev na-prev">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>

@@ -1,38 +1,8 @@
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    PermissionsMixin,
-    BaseUserManager,
-)
 from django.utils.translation import gettext_lazy as _
-from store.models import Option, Product
 
-
-class UserManager(BaseUserManager):
-    use_in_migrations = True
-
-    def _create_user(self, email, password, **extra_fields):
-        email = email.lower()
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_user(self, email, password=None, **extra_fields):
-        extra_fields.setdefault("is_staff", False)
-        extra_fields.setdefault("is_superuser", False)
-        return self._create_user(email, password, **extra_fields)
-
-    def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must have is_staff=True.")
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
-
-        return self._create_user(email, password, **extra_fields)
+from .managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -41,11 +11,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("email address"), unique=True)
     temp_password = models.CharField(max_length=100, null=True, blank=True)
 
-    cart = models.ManyToManyField(
-        Option, through="CartItem", blank=True, related_name="cart"
-    )
-
-    wishlist = models.ManyToManyField(Product, blank=True, related_name="wishlist")
+    wishlist = models.ManyToManyField("store.Product", blank=True, related_name="wishlist")
 
     start_date = models.DateTimeField(auto_now_add=True)
 
@@ -99,10 +65,3 @@ class BillingAddress(models.Model):
     is_default = models.BooleanField(default=False)
 
 
-class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    option = models.ForeignKey(Option, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-
-    class Meta:
-        unique_together = ["user", "option"]
