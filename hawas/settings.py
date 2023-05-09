@@ -39,6 +39,7 @@ THIRD_PARTY_APPS = [
     "colorfield",
     "django_filters",
     "django_cleanup.apps.CleanupConfig",
+    "ckeditor",
 ]
 
 DEFAULT_APPS = [
