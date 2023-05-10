@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Login | Hawas</title>
+{% endblock title %}
+{% block content %}
+<section
+	class="text-gray-800 dark:text-white antialiased px-3 py-4 flex flex-col justify-center sm:py-12 h-screen min-h-[700px]">
+	<div class="relative py-3 max-w-md w-full mx-auto text-center">
+		<h1 class="text-2xl font-light">Login To Continue</h1>
+		<div class="relative mt-3 bg-white dark:bg-neutral-800 shadow-md rounded-md text-left overflow-hidden">
+			<span class="h-2 bg-ctwo block"></span>
+			<form method='POST'>
+				{% csrf_token %}
+				<div class="p-4">
+					<label class="block font-semibold">Enter your email</label>
+					<input type="email" placeholder="Email" name='username'
+						class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none bg-gray-100 dark:bg-neutral-900 dark:border-neutral-700 focus:outline-none focus:ring-1 focus:ring-ctwo rounded-md">
+
+					<label class="block mt-3 font-semibold">Enter your password</label>
+					<input type="password" placeholder="Password" name='password'
+						class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none bg-gray-100 dark:bg-neutral-900 dark:border-neutral-700 focus:outline-none focus:ring-1 focus:ring-ctwo rounded-md">
+
+					<div class="flex justify-between items-baseline">
+						<button
+							class="mt-4 bg-ctwo text-white py-2 px-6 rounded-md hover:opacity-90 transition-opacity">Login</button>
+			</form>
+			<a href="{% url 'register' %}" class="text-sm hover:underline">Don't have account ?</a>
+		</div>
+
+		<div class="inline-flex items-center justify-center w-full">
+			<hr class="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-neutral-700">
+			<span
+				class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-neutral-800">or</span>
+		</div>
+		<div class="flex gap-3 mt-3 flex-col">
+			<button
+				class="flex items-stretch overflow-hidden w-full text-white bg-facebook hover:opacity-80 transition-opacity rounded-md tracking-wide">
+				<span class="w-10 justify-center items-center flex bg-[#3A4F85]">
+					<i class="fab fa-facebook-f text-xl"></i>
+				</span>
+				<span class="py-4 px-6">Facebook</span>
+			</button>
+			<button
+				class="flex items-stretch overflow-hidden w-full text-white bg-google hover:opacity-80 transition-opacity rounded-md tracking-wide">
+				<span class="w-10 justify-center items-center flex bg-[#BB4F3D]">
+					<i class="fab fa-google text-xl"></i>
+				</span>
+				<span class="py-4 px-6">Google</span>
+			</button>
+		</div>
+	</div>
+	</div>
+	</div>
+</section>
+{% endblock content %}

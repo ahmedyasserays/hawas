@@ -20,11 +20,12 @@ from django.urls import include, path
 
 from website import urls as website_urls
 from store import urls as store_urls
-
+from users import urls as users_urls
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(store_urls)),
     path("", include(website_urls)),
+    path("", include(users_urls)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
