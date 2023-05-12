@@ -35,20 +35,20 @@
 				class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-neutral-800">or</span>
 		</div>
 		<div class="flex gap-3 mt-3 flex-col">
-			<button
+			<a href="{% url 'social:begin' 'facebook' %}"
 				class="flex items-stretch overflow-hidden w-full text-white bg-facebook hover:opacity-80 transition-opacity rounded-md tracking-wide">
 				<span class="w-10 justify-center items-center flex bg-[#3A4F85]">
 					<i class="fab fa-facebook-f text-xl"></i>
 				</span>
 				<span class="py-4 px-6">Facebook</span>
-			</button>
-			<button
+			</a>
+			<a href="{% url "social:begin" "google-oauth2" %}"
 				class="flex items-stretch overflow-hidden w-full text-white bg-google hover:opacity-80 transition-opacity rounded-md tracking-wide">
 				<span class="w-10 justify-center items-center flex bg-[#BB4F3D]">
 					<i class="fab fa-google text-xl"></i>
 				</span>
 				<span class="py-4 px-6">Google</span>
-			</button>
+			</a>
 		</div>
 	</div>
 	</div>
