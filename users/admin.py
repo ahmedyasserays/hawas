@@ -26,7 +26,6 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     ordering = (
         "-start_date",
-        "email",
     )
     search_fields = ("first_name", "email")
     list_display = ("email", "first_name", "is_staff")
