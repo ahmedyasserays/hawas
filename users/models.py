@@ -7,11 +7,12 @@ from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(_("email address"), unique=True)
     temp_password = models.CharField(max_length=100, null=True, blank=True)
 
-    wishlist = models.ManyToManyField("store.Product", blank=True, related_name="wishlist")
+    wishlist = models.ManyToManyField(
+        "store.Product", blank=True, related_name="wishlist"
+    )
 
     start_date = models.DateTimeField(auto_now_add=True)
 
@@ -45,10 +46,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_username(self):
         return self.email
 
+
     def __str__(self):
-        if self.first_name and self.last_name:
-            return f"{self.first_name} {self.last_name}"
-        elif self.first_name:
+        if self.first_name:
             return self.first_name
         return self.email
 
@@ -63,5 +63,3 @@ class BillingAddress(models.Model):
     address = models.CharField(max_length=300, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
     is_default = models.BooleanField(default=False)
-
-

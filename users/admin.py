@@ -26,16 +26,15 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     ordering = (
         "-start_date",
-        "email",
     )
-    search_fields = ("first_name", "last_name", "email")
-    list_display = ("email", "first_name", "last_name", "is_staff")
+    search_fields = ("first_name", "email")
+    list_display = ("email", "first_name", "is_staff")
     list_filter = ("is_staff", "is_superuser", "is_active")
     readonly_fields = ("start_date",)
 
     fieldsets = (
         (_("Login details"), {"fields": ("email", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name")}),
+        (_("Personal info"), {"fields": ("first_name",)}),
         (
             _("Permissions"),
             {
@@ -55,7 +54,6 @@ class CustomUserAdmin(UserAdmin):
                 "classes": ("wide",),
                 "fields": (
                     "first_name",
-                    "last_name",
                     "email",
                     "password1",
                     "password2",

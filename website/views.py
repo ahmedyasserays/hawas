@@ -1,9 +1,10 @@
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, ListView, DetailView
 from store.models import Product
 from website.forms import ContactForm
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from .models import (
+    Blog,
     ContactMessage,
     HomePageHeroSection,
     NewArrivalsSection,
@@ -72,6 +73,7 @@ class ContactMessageView(CreateView):
 # TODO: make send_message background task    
     def form_valid(self, form):
         res = super().form_valid(form)
+        # TODO:change form_email and recipient_list
         send_mail(
             subject=f"New message from {form.cleaned_data['name']} ({form.cleaned_data['email']})",
             message=form.cleaned_data["message"],
@@ -80,3 +82,15 @@ class ContactMessageView(CreateView):
             fail_silently=False,
         )
         return res
+
+
+class BlogListView(ListView):
+    template_name = "blogs.html"
+    model = Blog
+    context_object_name = "blogs"
+
+
+class BlogDetailView(DetailView):
+    template_name = "blog.html"
+    model = Blog
+    context_object_name = "blog"

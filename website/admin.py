@@ -14,6 +14,7 @@ from .models import (
     PopularProductsSection,
     ShopPage,
     ContactMessage,
+    Blog
 )
 
 # Register your models here.
@@ -30,3 +31,4 @@ admin.site.register(CallTile, SingletonModelAdmin)
 admin.site.register(MailTile, SingletonModelAdmin)
 admin.site.register(ContactHero, SingletonModelAdmin)
 admin.site.register(ContactMessage)
+admin.site.register(Blog)

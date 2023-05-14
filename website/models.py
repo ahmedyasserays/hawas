@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from solo.models import SingletonModel
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 LOREM = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, illum optio eum magni quidem dolorum accusantium omnis"
@@ -83,3 +84,10 @@ class ContactMessage(models.Model):
     
     def get_absolute_url(self):
         return reverse('contact')
+    
+
+class Blog(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="defaults", default="defaults/hero.png")
+    description = RichTextField(default=LOREM)
+    date = models.DateField(auto_now_add=True)
