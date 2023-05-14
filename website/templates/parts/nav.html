@@ -45,16 +45,16 @@
                   class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 {% is_active 'shop' %}">Shop</a>
             </li>
             <li>
-               <a href="./about-us.html"
-                  class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+               <a href="{% url 'about'%}"
+                  class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 {% is_active 'about' %}">About</a>
             </li>
             <li>
-               <a href="./contact-us.html"
-                  class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+               <a href="{% url 'contact'%}"
+                  class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" {% is_active 'contact' %}>Contact</a>
             </li>
             <li>
-               <a href="./blogs.html"
-                  class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Blogs</a>
+               <a href="#"
+                  class="block py-2 pl-3 pr-4 text-cfour rounded hover:bg-cthree/25 md:hover:bg-transparent md:hover:text-ctwo md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" {% is_active 'blogs' %}>Blogs</a>
             </li>
          </ul>
       </div>

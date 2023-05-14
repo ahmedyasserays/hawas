@@ -37,8 +37,7 @@
                class="max-w-2xl text-justify mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
                {{tile.description}}
             </p>
-            {% comment %} add url contact-us {% endcomment %}
-            <a href="./contact-us.html" type="button"
+            <a href="{% url 'contact' %}" type="button"
                class="text-white text-xl w-fit shadow-lg dark:from-ctwo from-cone dark:via-cthree via-ctwo dark:to-cfour to-cthree bg-gradient-to-br focus:ring-4 focus:outline-none font-medium rounded-lg transition hover:scale-105 px-5 py-2.5 text-center mr-2 mb-2">
                Contact Us
             </a>
