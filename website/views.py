@@ -54,13 +54,7 @@ class AboutUsView(TemplateView):
 class ContactUsView(TemplateView):
     template_name = "contact-us.html"
 
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx["hero_section"] = ContactHero.get_solo()
-        ctx["mail"] = MailTile.get_solo()
-        ctx["call"] = CallTile.get_solo()
-        return ctx
-
+    
 
 class ContactMessageView(CreateView):
     template_name = "contact-us.html"
@@ -68,6 +62,14 @@ class ContactMessageView(CreateView):
     form_class = ContactForm
     success_url = reverse_lazy("contact")
 
+    def get_context_data(self, **kwargs):
+            ctx = super().get_context_data(**kwargs)
+            ctx["hero_section"] = ContactHero.get_solo()
+            ctx["mail"] = MailTile.get_solo()
+            ctx["call"] = CallTile.get_solo()
+            return ctx
+# TODO: add success popup
+# TODO: make send_message background task    
     def form_valid(self, form):
         res = super().form_valid(form)
         send_mail(
