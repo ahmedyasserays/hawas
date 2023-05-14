@@ -15,9 +15,6 @@ from django.http import HttpRequest
 
 
 class ProductQuerySet(OrderedModelQuerySet):
-    def all(self):
-        return self.prefetch_related("available_sizes", "available_colors")
-
     def available(self):
         return self.annotate(
             sizes_count=Count("available_sizes"), color_count=Count("available_colors")

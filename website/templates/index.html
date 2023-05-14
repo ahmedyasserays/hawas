@@ -1,32 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-    {% include "parts/header.html" %}
-    <!-- start new arrival -->
-    <section class="py-8 md:py-12">
-        <div class="px-4 text-center dark:text-pri">
-            <h2 class="font-bold text-3xl">{{ new_arrivals_section.title }}</h2>
-            <p class="font-light max-w-screen-md mb-8 mx-auto">{{ new_arrivals_section.description }}</p>
-        </div>
-        
-        {% with new_arrivals as prods %}
-            {% include "store/parts/prods-section.html" %}
-        {% endwith %}
-            
-    </section>
-    <!-- End of new arrival -->
-    <!-- start Popular -->
-    <section class="py-8 md:py-12">
-        <div class="px-4 text-center dark:text-pri">
-            <h2 class="font-bold text-3xl capitalize">{{ popular_products_section.title }}</h2>
-            <p class="font-light max-w-screen-md mb-8 mx-auto">{{ popular_products_section.description }}</p>
-        </div>
-        
-        {% with popular_products as prods %}
-            {% include "store/parts/prods-section.html" %}
-        {% endwith %}
-            
-    </section>
-    <!-- End of Popular -->
+{% include "parts/header.html" %}
+<!-- start new arrival -->
+<section class="py-8 md:py-12">
+    <div class="px-4 text-center dark:text-pri">
+        <h2 class="font-bold text-3xl">{{ new_arrivals_section.title }}</h2>
+        <p class="font-light max-w-screen-md mb-8 mx-auto">{{ new_arrivals_section.description }}</p>
+    </div>
+
+    {% with new_arrivals as prods %}
+    {% include "store/parts/prods-section.html" %}
+    {% endwith %}
+
+</section>
+<!-- End of new arrival -->
+<!-- start Popular -->
+<section class="py-8 md:py-12">
+    <div class="px-4 text-center dark:text-pri">
+        <h2 class="font-bold text-3xl capitalize">{{ popular_products_section.title }}</h2>
+        <p class="font-light max-w-screen-md mb-8 mx-auto">{{ popular_products_section.description }}</p>
+    </div>
+
+    {% with popular_products as prods %}
+    {% include "store/parts/prods-section.html" %}
+    {% endwith %}
+
+</section>
+<!-- End of Popular -->
 {% endblock content %}
 
 {% block scripts %}

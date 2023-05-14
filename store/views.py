@@ -1,11 +1,14 @@
-from django.views.generic import DetailView, TemplateView, ListView
+from django.views.generic import DetailView, ListView
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import serializers
-from store.models import Product, CartItem, Color, Size
+from store.filters import ProductFilter
+from store.models import Product, CartItem, Category, Color, Size
 from store.managers import ProductQuerySet
+from django_filters.views import FilterView
+from website.models import ShopPage
 from django.db.models import Prefetch
 
 
@@ -112,8 +115,9 @@ class CartItemsCountView(APIView):
         else:
             count = len(request.session.get("cart", []))
         return Response({"count": count})
-    
-    
+
+
+
 class CartView(ListView):
     template_name = "store/cart.html"
     context_object_name = "items"
@@ -178,3 +182,23 @@ def decrement_cart_quantity(request, id):
         request.session["cart"] = cart
         return Response({"success": True})
             
+class ShopView(FilterView):
+    template_name = "store/products.html"
+    filterset_class = ProductFilter
+    context_object_name = "available_products"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["hero_shop"] = ShopPage.get_solo()
+        ctx['category'] = Category.objects.all()
+        return ctx
+
+    def get_queryset(self):
+        query = (
+            Product.objects.available()
+            .with_first_image()
+            .with_first_color()
+            .with_first_size()
+            .with_wishlist(self.request)
+        )
+        return query

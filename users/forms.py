@@ -22,7 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email")
+        fields = ("first_name", "email")
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -50,7 +50,6 @@ class UserEditForm(UserChangeForm):
             "email",
             "password",
             "first_name",
-            "last_name",
             "is_active",
             "is_staff",
             "is_superuser",
@@ -59,7 +58,6 @@ class UserEditForm(UserChangeForm):
 
 class DeliveryDetailsForm(forms.ModelForm):
     first_name = forms.CharField(required=True, label="First Name")
-    last_name = forms.CharField(required=True, label="Last Name")
     email = forms.EmailField(required=True, label="Email")
     phone = forms.CharField(required=True, label="Phone")
     alt_phone = forms.CharField(required=False, label="Alternative Phone")
@@ -85,7 +83,6 @@ class DeliveryDetailsForm(forms.ModelForm):
             "notes",
             "is_fast_delivery",
             "first_name",
-            "last_name",
             "email",
             "phone",
         )

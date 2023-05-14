@@ -11,3 +11,9 @@ django-solo==2.0.0
 django-cleanup==7.0.0
 django-colorfield==0.8.0
 djangorestframework==3.14.0
+django-filter==23.2
+django-ckeditor==6.5.1
+git+https://github.com/python-social-auth/social-app-django.git@20fabcd7bd9a8a41910bc5c8ed1bd6ef2263b328
+git+https://github.com/django-extensions/django-extensions.git@25a41d8a3ecb24c009c5f4cac6010a091a3c91c8
+werkzeug==2.3.4
+pyOpenSSL==23.1.1
